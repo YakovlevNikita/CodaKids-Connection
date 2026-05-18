@@ -390,16 +390,352 @@
             margin-top: 2rem;
         }
 
+        @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap');
+
+        /* Intro Screen (Marker style) */
+        .intro-screen {
+            position: fixed;
+            inset: 0;
+            background: #f5f5dc;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+            padding: 2rem;
+            overflow: hidden;
+            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+        .intro-screen.slide-out {
+            transform: translateX(100%);
+        }
+        .intro-paper-left {
+            width: 400px;
+            flex: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            align-self: stretch;
+        }
+        .intro-paper-right {
+            flex: 1;
+            max-width: 800px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 0;
+            align-self: stretch;
+        }
+        .slide-content {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 2rem;
+            transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.5s ease;
+        }
+        #introWelcome {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        #introWelcome.hidden-left {
+            transform: translateX(-30%);
+            opacity: 0;
+            pointer-events: none;
+        }
+        #introAuth {
+            transform: translateX(30%);
+            opacity: 0;
+            pointer-events: none;
+        }
+        #introAuth.active {
+            transform: translateX(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .welcome-text {
+            font-family: 'Kalam', 'Comic Sans MS', 'Segoe Print', 'Bradley Hand', cursive;
+            color: #2d2d2d;
+        }
+        .marker-title {
+            font-size: 2.75rem;
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 0.75rem;
+        }
+        .marker-subtitle {
+            font-size: 1.6rem;
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+        .marker-hint {
+            font-size: 1.15rem;
+            color: #666;
+        }
+        .blink {
+            animation: cursorBlink 1.2s step-end infinite;
+        }
+        .auth-form-marker {
+            font-family: 'Kalam', 'Comic Sans MS', 'Segoe Print', 'Bradley Hand', cursive;
+            color: #2d2d2d;
+            width: 100%;
+        }
+        .auth-form-marker .marker-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        .marker-field {
+            margin-bottom: 1.25rem;
+        }
+        .marker-field label {
+            display: block;
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+        .marker-input {
+            font-family: 'Kalam', 'Comic Sans MS', 'Segoe Print', 'Bradley Hand', cursive;
+            font-size: 1.3rem;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #555;
+            color: #2d2d2d;
+            outline: none;
+            width: 100%;
+            padding: 0.25rem 0;
+        }
+        .marker-input::placeholder {
+            color: #999;
+            opacity: 0.6;
+        }
+        .marker-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+        .marker-btn {
+            font-family: 'Kalam', 'Comic Sans MS', 'Segoe Print', 'Bradley Hand', cursive;
+            font-size: 1.2rem;
+            padding: 0.5rem 1.5rem;
+            background: transparent;
+            border: 2px solid #555;
+            color: #2d2d2d;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .marker-btn:hover {
+            background: #2d2d2d;
+            color: #f5f5dc;
+        }
+        .marker-error {
+            margin-top: 1rem;
+            color: #c0392b;
+            font-size: 1.1rem;
+        }
+        /* Editor on the right */
+        .editor-frame {
+            width: 100%;
+            height: 85vh;
+            background: #1e1e1e;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+        }
+        .editor-header {
+            background: #2d2d2d;
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid #3d3d3d;
+            flex-shrink: 0;
+        }
+        .editor-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+        .editor-dot.red { background: #ff5f56; }
+        .editor-dot.yellow { background: #ffbd2e; }
+        .editor-dot.green { background: #27c93f; }
+        .editor-title { color: #969696; font-size: 0.85rem; margin-left: 0.5rem; font-family: 'Courier New', monospace; }
+        .editor-body {
+            flex: 1;
+            display: flex;
+            padding: 1rem 1rem 1rem 0;
+            overflow: hidden;
+            min-height: 0;
+        }
+        .line-numbers {
+            color: #858585;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.65;
+            text-align: right;
+            padding: 0 1rem;
+            border-right: 1px solid #333;
+            user-select: none;
+            white-space: pre;
+            overflow: hidden;
+        }
+        .code-typing-area {
+            flex: 1;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.65;
+            color: #d4d4d4;
+            padding-left: 1rem;
+            overflow-y: auto;
+            white-space: pre;
+        }
+        .code-editor-line { display: block; }
+        .code-editor-line .ed-tag { color: #569cd6; }
+        .code-editor-line .ed-attr { color: #9cdcfe; }
+        .code-editor-line .ed-string { color: #ce9178; }
+        .code-editor-line .ed-comment { color: #6a9955; }
+        .code-editor-line .ed-plain { color: #d4d4d4; }
+        @keyframes cursorBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        /* DOS-style auth modal override */
+        .dos-auth-overlay {
+            background: #000 !important;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s ease;
+        }
+        .dos-auth-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .dos-auth-modal {
+            background: #001100 !important;
+            border: 2px solid #00ff41;
+            border-radius: 0 !important;
+            box-shadow: 0 0 20px rgba(0,255,65,0.3), inset 0 0 30px rgba(0,255,65,0.05);
+            color: #00ff41;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .dos-auth-modal h3 {
+            color: #00ff41 !important;
+            font-family: 'Courier New', Courier, monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 1px solid #00ff41;
+            padding-bottom: 0.75rem;
+        }
+        .dos-auth-modal label {
+            color: #0f0 !important;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .dos-auth-modal input {
+            background: #000 !important;
+            border: 1px solid #008f11 !important;
+            color: #00ff41 !important;
+            border-radius: 0 !important;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .dos-auth-modal input:focus {
+            outline: none;
+            border-color: #00ff41 !important;
+            box-shadow: 0 0 8px rgba(0,255,65,0.4);
+        }
+        .dos-auth-modal input::placeholder {
+            color: #004d00;
+        }
+        .dos-btn-primary {
+            background: #00ff41 !important;
+            color: #000 !important;
+            border-radius: 0 !important;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .dos-btn-primary:hover {
+            background: #33ff66 !important;
+            box-shadow: 0 0 12px #00ff41;
+        }
+        .dos-btn-secondary {
+            background: transparent !important;
+            color: #00ff41 !important;
+            border: 1px solid #00ff41 !important;
+            border-radius: 0 !important;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .dos-btn-secondary:hover {
+            background: rgba(0,255,65,0.15) !important;
+        }
+        .dos-error {
+            color: #ff3333 !important;
+            font-family: 'Courier New', Courier, monospace;
+            text-shadow: 0 0 5px #ff3333;
+        }
+
         @media (max-width: 768px) {
             .calendar-grid { grid-template-columns: repeat(7, 1fr); gap: 0.25rem; }
             .calendar-day { min-height: 50px; padding: 0.4rem; font-size: 0.8rem; }
             .slot-workshops { grid-template-columns: 1fr; }
             .header-content { flex-direction: column; align-items: flex-start; }
             nav { flex-wrap: wrap; }
+            .intro-content h1 { font-size: 1.5rem; }
+            .intro-content p { font-size: 1rem; }
         }
     </style>
 </head>
 <body>
+
+<!-- Intro Screen -->
+<div class="intro-screen" id="introScreen">
+    <!-- Left: Welcome / Auth -->
+    <div class="intro-paper-left">
+        <div class="slide-content" id="introWelcome">
+            <div class="welcome-text">
+                <h1 class="marker-title">Добро пожаловать<br>в КодаКидс!</h1>
+                <p class="marker-subtitle">Мы за магию нулей и единиц!</p>
+                <p class="marker-hint blink">Нажмите для продолжения</p>
+            </div>
+        </div>
+
+        <div class="slide-content" id="introAuth">
+            <div class="auth-form-marker">
+                <h2 class="marker-title">Вход в систему</h2>
+                <div class="marker-field">
+                    <label>Логин:</label>
+                    <input type="text" id="introLoginInput" class="marker-input" placeholder="школа1">
+                </div>
+                <div class="marker-field">
+                    <label>Пароль:</label>
+                    <input type="password" id="introPassInput" class="marker-input" placeholder="••••••">
+                </div>
+                <div class="marker-actions">
+                    <button class="marker-btn" onclick="doIntroLogin()">Войти</button>
+                    <button class="marker-btn" onclick="hideAuthSlide()">Отмена</button>
+                </div>
+                <div class="marker-error" id="introAuthErrorLine" style="display:none">Неверный логин или пароль</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right: Code Editor -->
+    <div class="intro-paper-right">
+        <div class="editor-frame">
+            <div class="editor-header">
+                <span class="editor-dot red"></span>
+                <span class="editor-dot yellow"></span>
+                <span class="editor-dot green"></span>
+                <span class="editor-title">index.html</span>
+            </div>
+            <div class="editor-body">
+                <div class="line-numbers" id="lineNumbers">1</div>
+                <div class="code-typing-area" id="codeTypingArea"></div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <header>
     <div class="header-content">
@@ -417,22 +753,22 @@
     </div>
 </header>
 
-<!-- Auth Modal -->
-<div class="modal-overlay" id="authModal">
-    <div class="modal">
-        <h3>Вход в систему</h3>
+<!-- Auth Modal (DOS style) -->
+<div class="modal-overlay dos-auth-overlay" id="authModal">
+    <div class="modal dos-auth-modal">
+        <h3>> Вход в систему</h3>
         <div class="form-group">
-            <label>Логин</label>
+            <label>> Логин:</label>
             <input type="text" id="loginInput" placeholder="Например: школа1">
         </div>
         <div class="form-group">
-            <label>Пароль</label>
+            <label>> Пароль:</label>
             <input type="password" id="passInput" placeholder="Введите пароль">
         </div>
-        <div class="error-msg" id="authError">Неверный логин или пароль</div>
+        <div class="error-msg dos-error" id="authError">ОШИБКА: Неверный логин или пароль</div>
         <div class="form-actions">
-            <button class="btn btn-primary" onclick="doLogin()">Войти</button>
-            <button class="btn btn-secondary" onclick="toggleAuth()">Отмена</button>
+            <button class="btn dos-btn-primary" onclick="doLogin()">Войти</button>
+            <button class="btn dos-btn-secondary" onclick="toggleAuth()">Отмена</button>
         </div>
     </div>
 </div>
@@ -599,9 +935,167 @@
     let currentUser = null;
     let bookings = [];
 
+    // ===================== CODE TYPING INTRO =====================
+    const codeLines = [
+        '<!DOCTYPE html>',
+        '<html lang="ru">',
+        '  <head>',
+        '    <meta charset="UTF-8" />',
+        '    <title>CodaKids Connection</title>',
+        '    <link rel="stylesheet" href="style.css" />',
+        '  </head>',
+        '  <body class="welcome">',
+        '    <header class="main-header">',
+        '      <h1>Запись на мастерклассы</h1>',
+        '    </header>',
+        '    <main>',
+        '      <section id="calendar">',
+        '        <div class="calendar-grid">',
+        '          <!-- Июнь 2026 -->',
+        '        </div>',
+        '      </section>',
+        '      <section id="workshops">',
+        '        <div class="workshops-grid">',
+        '          <article>Этичный хакер</article>',
+        '          <article>Веб-игра ИИ</article>',
+        '          <article>Оживи героя</article>',
+        '          <article>Инди-игра в Godot</article>',
+        '        </div>',
+        '      </section>',
+        '    </main>',
+        '    <footer>',
+        '      <p>CodaKids &copy; 2026</p>',
+        '    </footer>',
+        '  </body>',
+        '</html>'
+    ];
+
+    let codeLineIndex = 0;
+    let codeCharIndex = 0;
+    let codeTypingPaused = false;
+
+    function escapeHtml(str) {
+        return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function highlightEditorLine(text) {
+        let html = escapeHtml(text);
+        html = html.replace(/(&lt;\/?)(\w+)(.*?)(&gt;)/g, '<span class="ed-tag">$1$2$3$4</span>');
+        html = html.replace(/(\s)([a-zA-Z-]+)(=)/g, '$1<span class="ed-attr">$2</span>$3');
+        html = html.replace(/"([^"]*)"/g, '<span class="ed-string">"$1"</span>');
+        html = html.replace(/(&lt;!--.*?--&gt;)/g, '<span class="ed-comment">$1</span>');
+        return html;
+    }
+
+    function startCodeTyping() {
+        const area = document.getElementById('codeTypingArea');
+        const lineNumbers = document.getElementById('lineNumbers');
+
+        function resetEditor() {
+            area.innerHTML = '';
+            lineNumbers.textContent = '1';
+            codeLineIndex = 0;
+            codeCharIndex = 0;
+        }
+
+        function typeNextChar() {
+            if (codeLineIndex >= codeLines.length) {
+                setTimeout(() => {
+                    resetEditor();
+                    setTimeout(typeNextChar, 600);
+                }, 2000);
+                return;
+            }
+
+            const line = codeLines[codeLineIndex];
+
+            if (codeCharIndex === 0) {
+                const lineDiv = document.createElement('div');
+                lineDiv.className = 'code-editor-line';
+                area.appendChild(lineDiv);
+            }
+
+            const currentDiv = area.lastElementChild;
+            currentDiv.textContent += line[codeCharIndex];
+            codeCharIndex++;
+
+            if (codeCharIndex >= line.length) {
+                currentDiv.innerHTML = highlightEditorLine(currentDiv.textContent);
+                codeLineIndex++;
+                codeCharIndex = 0;
+                lineNumbers.textContent += '\n' + (codeLineIndex + 1);
+                setTimeout(typeNextChar, 40);
+                return;
+            }
+
+            setTimeout(typeNextChar, 30);
+        }
+
+        typeNextChar();
+    }
+
+    function showAuthSlide() {
+        document.getElementById('introWelcome').classList.add('hidden-left');
+        document.getElementById('introAuth').classList.add('active');
+        setTimeout(() => {
+            document.getElementById('introLoginInput').focus();
+        }, 300);
+    }
+
+    function hideAuthSlide() {
+        document.getElementById('introWelcome').classList.remove('hidden-left');
+        document.getElementById('introAuth').classList.remove('active');
+        document.getElementById('introAuthErrorLine').style.display = 'none';
+    }
+
+    function completeIntro() {
+        const intro = document.getElementById('introScreen');
+        if (intro.classList.contains('slide-out')) return;
+        intro.classList.add('slide-out');
+        setTimeout(() => {
+            intro.style.display = 'none';
+        }, 800);
+    }
+
+    function dismissIntro() {
+        if (document.getElementById('introAuth').classList.contains('active')) return;
+        showAuthSlide();
+    }
+
+    function doIntroLogin() {
+        const login = document.getElementById('introLoginInput').value.trim().toLowerCase();
+        const pass = document.getElementById('introPassInput').value;
+        const user = USERS.find(u => u.login === login && u.password === pass);
+        if (user) {
+            currentUser = { login: user.login, name: user.name, role: user.role };
+            saveState();
+            completeIntro();
+            updateUI();
+            if (user.role === 'admin') {
+                renderAdminTable();
+            }
+            document.getElementById('introLoginInput').value = '';
+            document.getElementById('introPassInput').value = '';
+        } else {
+            document.getElementById('introAuthErrorLine').style.display = 'block';
+        }
+    }
+
     // ===================== INIT =====================
     function init() {
         loadState();
+        startCodeTyping();
+
+        document.getElementById('introScreen').addEventListener('click', function(e) {
+            if (e.target.closest('#introAuth')) return;
+            dismissIntro();
+        });
+        document.addEventListener('keydown', function onKey(e) {
+            if (e.target.closest('#introAuth')) return;
+            dismissIntro();
+            document.removeEventListener('keydown', onKey);
+        });
+
         renderCalendar();
         renderWorkshops();
         renderTeachers();
@@ -1139,9 +1633,14 @@
         });
     });
 
-    // Enter key on auth
+    // Enter key on auth (modal)
     document.getElementById('passInput').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') doLogin();
+    });
+
+    // Enter key on intro auth
+    document.getElementById('introPassInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') doIntroLogin();
     });
 
     // Start

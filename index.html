@@ -1019,99 +1019,6 @@
 </footer>
 
 <script>
-    // ===================== DATA =====================
-    const USERS = [
-        { login: 'admin', password: 'admin123', name: 'Администратор', role: 'admin' }
-    ];
-    for (let i = 1; i <= 19; i++) {
-        USERS.push({
-            login: `школа${i}`,
-            password: `school${i}`,
-            name: `Школа ${i}`,
-            role: 'school'
-        });
-    }
-
-    const WORKSHOPS = {
-        studio: [
-            {
-                id: 'hacker',
-                title: 'Этичный хакер',
-                shortDesc: 'Практика по информационной безопасности',
-                fullDesc: 'Ребята учатся мыслить как настоящие специалисты по защите информации. Они ищут скрытые подсказки на специальном учебном сайте, пробуют разные комбинации паролей, находят секретные окошки, через которые можно попасть туда, куда не положено, и разбирают, как устроены секретные ключи доступа. Всё происходит на безопасном тренажёре — никаких реальных сайтов и опасных действий.',
-                result: [
-                    'Умеют находить слабые места на сайтах',
-                    'Знают, как придумывать надёжные пароли',
-                    'Понимают, как защитить свои аккаунты',
-                    'Получают памятку по безопасности'
-                ],
-                format: 'В студии',
-                duration: '1.5 часа',
-                maxSlots: 12,
-                color: '#27ae60',
-                type: 'studio'
-            },
-            {
-                id: 'webai',
-                title: 'Веб-игра ИИ',
-                shortDesc: 'Создание игры с помощью нейросетей',
-                fullDesc: 'Дети придумывают свою собственную игру — например, про космического котика или приключения в джунглях. Они рассказывают компьютеру, как должна выглядеть игра, а умный помощник создаёт код. Потом ребята проверяют, как всё работает, просят исправить ошибки и добавляют картинки. В итоге у каждого получается настоящая игра, которую можно открыть в браузере на любом устройстве.',
-                result: [
-                    'Создают свою игру с нуля',
-                    'Учатся объяснять компьютеру, что они хотят',
-                    'Получают готовую игру, которая работает на телефоне и компьютере',
-                    'Могут показать её друзьям и родителям'
-                ],
-                format: 'В студии',
-                duration: '1.5 часа',
-                maxSlots: 12,
-                color: '#2980b9',
-                type: 'studio'
-            }
-        ],
-        outbound: [
-            {
-                id: 'hero',
-                title: 'Оживи героя',
-                shortDesc: '2D-аркада в Scratch',
-                fullDesc: 'Ребята рисуют своего героя и заставляют его бегать, прыгать и собирать сокровища. Они придумывают уровни, добавляют препятствия и настраивают правила игры. В конце каждый ребёнок получает файл своей игры на флешку — можно принести домой и показать родителям.',
-                result: [
-                    'Создают своего персонажа и мир для него',
-                    'Придумывают правила и уровни',
-                    'Получают игру на флешку, чтобы играть дома'
-                ],
-                format: 'Выездной',
-                duration: '1.5 часа',
-                maxSlots: 999,
-                color: '#f39c12',
-                type: 'outbound'
-            },
-            {
-                id: 'godot',
-                title: 'Инди-игра в Godot',
-                shortDesc: '2D-платформер в Godot',
-                fullDesc: 'Ребята создают приключенческую игру, где персонаж бегает по платформам, собирает монетки и побеждает злодеев. Они настраивают, как персонаж прыгает и падает, добавляют врагов и финальный экран победы. В конце каждый получает файл игры, которую можно запустить на компьютере и передать друзьям.',
-                result: [
-                    'Создают полноценную приключенческую игру',
-                    'Настраивают движение, прыжки и бои',
-                    'Получают файл игры для домашнего компьютера'
-                ],
-                format: 'Выездной',
-                duration: '1.5 часа',
-                maxSlots: 999,
-                color: '#8e44ad',
-                type: 'outbound'
-            }
-        ]
-    };
-
-    const ALL_WORKSHOPS = [...WORKSHOPS.studio, ...WORKSHOPS.outbound];
-
-    const PHASE1_DATES = [4, 5, 8, 9, 10, 11, 12];
-    const PHASE2_DATES = [15, 16, 17, 18, 19];
-    const PHASE1_SLOT = ['15:30–17:00'];
-    const PHASE2_SLOTS = ['10:00–11:30', '12:00–13:30', '14:00–15:30'];
-
     const MONTH_NAMES = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
     const DAY_NAMES = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
 
@@ -1119,6 +1026,17 @@
     let currentUser = null;
     let bookings = [];
     let selectedBookingType = null;
+    let workshopsData = null;
+    let PHASE1_DATES, PHASE2_DATES, PHASE1_SLOT, PHASE2_SLOTS, ALL_WORKSHOPS;
+
+    function setWorkshopsData(data) {
+        workshopsData = data;
+        ALL_WORKSHOPS = data.all;
+        PHASE1_DATES = data.schedule.phase1Dates;
+        PHASE2_DATES = data.schedule.phase2Dates;
+        PHASE1_SLOT = data.schedule.phase1Slot;
+        PHASE2_SLOTS = data.schedule.phase2Slots;
+    }
 
     // ===================== CODE TYPING INTRO =====================
     const codeLines = [
@@ -1223,7 +1141,7 @@
         document.getElementById('introWelcome').classList.add('hidden-left');
         document.getElementById('introAuth').classList.add('active');
         setTimeout(() => {
-            document.getElementById('introLoginInput').focus();
+            document.getElementById('introSchoolSelect').focus();
         }, 300);
     }
 
@@ -1247,38 +1165,56 @@
         showAuthSlide();
     }
 
-    function doIntroLogin() {
+    async function doIntroLogin() {
         const login = document.getElementById('introSchoolSelect').value;
         const pass = document.getElementById('introPassInput').value;
-        const user = USERS.find(u => u.login === login && u.password === pass);
-        if (user) {
-            currentUser = { login: user.login, name: user.name, role: user.role };
-            saveState();
-            completeIntro();
-            updateUI();
-            if (user.role === 'admin') {
-                renderAdminTable();
+        try {
+            const res = await fetch('api/auth.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({login, password: pass})
+            });
+            const data = await res.json();
+            if (data.success) {
+                currentUser = data.user;
+                const bRes = await fetch('api/bookings.php');
+                bookings = await bRes.json();
+                completeIntro();
+                updateUI();
+                if (currentUser.role === 'admin') renderAdminTable();
+                document.getElementById('introSchoolSelect').value = '';
+                document.getElementById('introPassInput').value = '';
+                document.getElementById('introAuthErrorLine').style.display = 'none';
+            } else {
+                document.getElementById('introAuthErrorLine').style.display = 'block';
             }
-            document.getElementById('introSchoolSelect').value = '';
-            document.getElementById('introPassInput').value = '';
-            document.getElementById('introAuthErrorLine').style.display = 'none';
-        } else {
+        } catch (e) {
             document.getElementById('introAuthErrorLine').style.display = 'block';
         }
     }
 
-    function doIntroAdminLogin() {
+    async function doIntroAdminLogin() {
         const pass = document.getElementById('introAdminPassInput').value;
-        const user = USERS.find(u => u.login === 'admin' && u.password === pass);
-        if (user) {
-            currentUser = { login: user.login, name: user.name, role: user.role };
-            saveState();
-            completeIntro();
-            updateUI();
-            renderAdminTable();
-            document.getElementById('introAdminPassInput').value = '';
-            document.getElementById('introAuthErrorLine').style.display = 'none';
-        } else {
+        try {
+            const res = await fetch('api/auth.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({login: 'admin', password: pass})
+            });
+            const data = await res.json();
+            if (data.success) {
+                currentUser = data.user;
+                const bRes = await fetch('api/bookings.php');
+                bookings = await bRes.json();
+                completeIntro();
+                updateUI();
+                renderAdminTable();
+                document.getElementById('introAdminPassInput').value = '';
+                document.getElementById('introAuthErrorLine').style.display = 'none';
+            } else {
+                document.getElementById('introAuthErrorLine').style.display = 'block';
+            }
+        } catch (e) {
             document.getElementById('introAuthErrorLine').style.display = 'block';
         }
     }
@@ -1296,11 +1232,38 @@
     }
 
     // ===================== INIT =====================
-    function init() {
-        loadState();
-        if (currentUser) {
-            document.getElementById('introScreen').style.display = 'none';
+    async function init() {
+        try {
+            const wsRes = await fetch('api/workshops.php');
+            const wsData = await wsRes.json();
+            setWorkshopsData(wsData);
+        } catch (e) {
+            console.error('Не удалось загрузить мастерклассы', e);
+            setWorkshopsData({all: [], schedule: {phase1Dates:[], phase2Dates:[], phase1Slot:[], phase2Slots:[]}});
         }
+
+        try {
+            const meRes = await fetch('api/me.php');
+            const meData = await meRes.json();
+            if (meData.loggedIn) {
+                currentUser = meData.user;
+                if (currentUser.role === 'admin' || currentUser.role === 'school') {
+                    document.getElementById('introScreen').style.display = 'none';
+                }
+            }
+        } catch (e) {
+            console.error('Не удалось проверить авторизацию', e);
+        }
+
+        if (currentUser) {
+            try {
+                const bRes = await fetch('api/bookings.php');
+                bookings = await bRes.json();
+            } catch (e) {
+                bookings = [];
+            }
+        }
+
         startCodeTyping();
 
         document.getElementById('introScreen').addEventListener('click', function(e) {
@@ -1322,26 +1285,6 @@
         }
     }
 
-    function loadState() {
-        const savedUser = localStorage.getItem('ck_user');
-        const savedBookings = localStorage.getItem('ck_bookings');
-        if (savedUser) {
-            currentUser = JSON.parse(savedUser);
-        }
-        if (savedBookings) {
-            bookings = JSON.parse(savedBookings);
-        }
-    }
-
-    function saveState() {
-        if (currentUser) {
-            localStorage.setItem('ck_user', JSON.stringify(currentUser));
-        } else {
-            localStorage.removeItem('ck_user');
-        }
-        localStorage.setItem('ck_bookings', JSON.stringify(bookings));
-    }
-
     // ===================== AUTH =====================
     function toggleAuth() {
         const modal = document.getElementById('authModal');
@@ -1349,38 +1292,56 @@
         document.getElementById('authError').classList.remove('show');
     }
 
-    function doLogin() {
+    async function doLogin() {
         const login = document.getElementById('schoolSelect').value;
         const pass = document.getElementById('passInput').value;
-        const user = USERS.find(u => u.login === login && u.password === pass);
-        if (user) {
-            currentUser = { login: user.login, name: user.name, role: user.role };
-            saveState();
-            toggleAuth();
-            updateUI();
-            if (user.role === 'admin') {
-                renderAdminTable();
+        try {
+            const res = await fetch('api/auth.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({login, password: pass})
+            });
+            const data = await res.json();
+            if (data.success) {
+                currentUser = data.user;
+                const bRes = await fetch('api/bookings.php');
+                bookings = await bRes.json();
+                toggleAuth();
+                updateUI();
+                if (currentUser.role === 'admin') renderAdminTable();
+                document.getElementById('schoolSelect').value = '';
+                document.getElementById('passInput').value = '';
+                document.getElementById('authError').classList.remove('show');
+            } else {
+                document.getElementById('authError').classList.add('show');
             }
-            document.getElementById('schoolSelect').value = '';
-            document.getElementById('passInput').value = '';
-            document.getElementById('authError').classList.remove('show');
-        } else {
+        } catch (e) {
             document.getElementById('authError').classList.add('show');
         }
     }
 
-    function doAdminLogin() {
+    async function doAdminLogin() {
         const pass = document.getElementById('adminPassInput').value;
-        const user = USERS.find(u => u.login === 'admin' && u.password === pass);
-        if (user) {
-            currentUser = { login: user.login, name: user.name, role: user.role };
-            saveState();
-            toggleAuth();
-            updateUI();
-            renderAdminTable();
-            document.getElementById('adminPassInput').value = '';
-            document.getElementById('adminAuthError').classList.remove('show');
-        } else {
+        try {
+            const res = await fetch('api/auth.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({login: 'admin', password: pass})
+            });
+            const data = await res.json();
+            if (data.success) {
+                currentUser = data.user;
+                const bRes = await fetch('api/bookings.php');
+                bookings = await bRes.json();
+                toggleAuth();
+                updateUI();
+                renderAdminTable();
+                document.getElementById('adminPassInput').value = '';
+                document.getElementById('adminAuthError').classList.remove('show');
+            } else {
+                document.getElementById('adminAuthError').classList.add('show');
+            }
+        } catch (e) {
             document.getElementById('adminAuthError').classList.add('show');
         }
     }
@@ -1397,9 +1358,10 @@
         document.getElementById('adminAuthError').classList.remove('show');
     }
 
-    function doLogout() {
+    async function doLogout() {
+        await fetch('api/logout.php', {method: 'POST'});
         currentUser = null;
-        saveState();
+        bookings = [];
         updateUI();
 
         const intro = document.getElementById('introScreen');
@@ -1673,51 +1635,57 @@
         document.getElementById('bookingModal').classList.remove('active');
     }
 
-    function bookWorkshop(day, slot, workshopId) {
+    async function bookWorkshop(day, slot, workshopId) {
         if (!currentUser) return;
-
-        // Check if already booked in this slot
-        if (isSchoolBooked(day, slot, currentUser.login)) {
-            alert('Вы уже записаны на этот слот. Сначала отмените текущую запись.');
+        if (currentUser.role === 'admin') {
+            alert('Администратор не может записываться на мастерклассы.');
             return;
         }
 
-        const ws = ALL_WORKSHOPS.find(w => w.id === workshopId);
-        if (ws.type === 'studio' && getSpotsLeft(day, slot, ws) <= 0) {
-            alert('Мест нет!');
-            return;
+        try {
+            const res = await fetch('api/bookings.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({day, time: slot, workshopId})
+            });
+            const data = await res.json();
+            if (data.success) {
+                bookings.push(data.booking);
+                openBookingModal(day, PHASE1_DATES.includes(day));
+                renderCalendar();
+                renderMyBookings();
+                if (currentUser.role === 'admin') renderAdminTable();
+            } else {
+                alert(data.error || 'Ошибка записи');
+            }
+        } catch (e) {
+            alert('Ошибка сети при записи');
         }
-
-        bookings.push({
-            id: Date.now() + Math.random(),
-            school: currentUser.login,
-            schoolName: currentUser.name,
-            day: day,
-            time: slot,
-            workshopId: workshopId,
-            workshopName: ws.title,
-            type: ws.type,
-            bookedAt: new Date().toISOString()
-        });
-
-        saveState();
-        openBookingModal(day, PHASE1_DATES.includes(day));
-        renderCalendar();
-        renderMyBookings();
-        if (currentUser.role === 'admin') renderAdminTable();
     }
 
-    function cancelBooking(day, slot, workshopId) {
+    async function cancelBooking(day, slot, workshopId) {
         if (!currentUser) return;
-        const idx = bookings.findIndex(b =>
+        const b = bookings.find(b =>
             b.day === day && b.time === slot && b.school === currentUser.login && b.workshopId === workshopId
         );
-        if (idx !== -1) {
-            bookings.splice(idx, 1);
-            saveState();
-            renderCalendar();
-            renderMyBookings();
-            if (currentUser.role === 'admin') renderAdminTable();
+        if (!b) return;
+        try {
+            const res = await fetch('api/bookings.php', {
+                method: 'DELETE',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({id: b.id})
+            });
+            const data = await res.json();
+            if (data.success) {
+                bookings = bookings.filter(x => x.id !== b.id);
+                renderCalendar();
+                renderMyBookings();
+                if (currentUser.role === 'admin') renderAdminTable();
+            } else {
+                alert(data.error || 'Ошибка отмены');
+            }
+        } catch (e) {
+            alert('Ошибка сети при отмене');
         }
     }
 
@@ -1757,7 +1725,8 @@
     function renderWorkshops() {
         const grid = document.getElementById('workshopsGrid');
         grid.innerHTML = '';
-        ALL_WORKSHOPS.forEach(ws => {
+        if (!workshopsData) return;
+        workshopsData.all.forEach(ws => {
             const card = document.createElement('div');
             card.className = `workshop-info ${ws.type}`;
             card.innerHTML = `
@@ -1831,13 +1800,25 @@
         });
     }
 
-    function adminCancelBooking(id) {
-        const idx = bookings.findIndex(b => String(b.id) === String(id));
-        if (idx !== -1) {
-            bookings.splice(idx, 1);
-            saveState();
-            renderAdminTable();
-            renderCalendar();
+    async function adminCancelBooking(id) {
+        if (!confirm('Отменить запись?')) return;
+        try {
+            const res = await fetch('api/bookings.php', {
+                method: 'DELETE',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({id})
+            });
+            const data = await res.json();
+            if (data.success) {
+                bookings = bookings.filter(b => b.id !== id);
+                renderAdminTable();
+                renderCalendar();
+                renderMyBookings();
+            } else {
+                alert(data.error || 'Ошибка отмены');
+            }
+        } catch (e) {
+            alert('Ошибка сети при отмене');
         }
     }
 
@@ -1856,20 +1837,29 @@
         URL.revokeObjectURL(url);
     }
 
-    function importData(input) {
+    async function importData(input) {
         const file = input.files[0];
         if (!file) return;
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = async function(e) {
             try {
                 const data = JSON.parse(e.target.result);
                 if (data.bookings && Array.isArray(data.bookings)) {
                     if (confirm(`Загрузить ${data.bookings.length} записей? Текущие записи будут заменены.`)) {
-                        bookings = data.bookings;
-                        saveState();
-                        renderAdminTable();
-                        renderCalendar();
-                        alert('Данные успешно загружены!');
+                        const res = await fetch('api/import.php', {
+                            method: 'POST',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify({bookings: data.bookings})
+                        });
+                        const result = await res.json();
+                        if (result.success) {
+                            bookings = data.bookings;
+                            renderAdminTable();
+                            renderCalendar();
+                            alert('Данные успешно загружены!');
+                        } else {
+                            alert(result.error || 'Ошибка импорта');
+                        }
                     }
                 } else {
                     alert('Неверный формат файла');
@@ -1882,13 +1872,17 @@
         input.value = '';
     }
 
-    function clearAllData() {
+    async function clearAllData() {
         if (confirm('Вы уверены? Все записи будут удалены безвозвратно!')) {
-            bookings = [];
-            saveState();
-            renderAdminTable();
-            renderCalendar();
-            renderMyBookings();
+            const res = await fetch('api/clear.php', {method: 'POST'});
+            const data = await res.json();
+            if (data.success) {
+                bookings = [];
+                renderAdminTable();
+                renderCalendar();
+                renderMyBookings();
+                alert('Все записи удалены');
+            }
         }
     }
 

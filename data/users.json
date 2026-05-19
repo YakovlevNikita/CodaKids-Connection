@@ -1,0 +1,22 @@
+[
+    {"login": "admin", "password": "admin123", "name": "Администратор", "role": "admin"},
+    {"login": "школа1", "password": "school1", "name": "Школа 1", "role": "school"},
+    {"login": "школа2", "password": "school2", "name": "Школа 2", "role": "school"},
+    {"login": "школа3", "password": "school3", "name": "Школа 3", "role": "school"},
+    {"login": "школа4", "password": "school4", "name": "Школа 4", "role": "school"},
+    {"login": "школа5", "password": "school5", "name": "Школа 5", "role": "school"},
+    {"login": "школа6", "password": "school6", "name": "Школа 6", "role": "school"},
+    {"login": "школа7", "password": "school7", "name": "Школа 7", "role": "school"},
+    {"login": "школа8", "password": "school8", "name": "Школа 8", "role": "school"},
+    {"login": "школа9", "password": "school9", "name": "Школа 9", "role": "school"},
+    {"login": "школа10", "password": "school10", "name": "Школа 10", "role": "school"},
+    {"login": "школа11", "password": "school11", "name": "Школа 11", "role": "school"},
+    {"login": "школа12", "password": "school12", "name": "Школа 12", "role": "school"},
+    {"login": "школа13", "password": "school13", "name": "Школа 13", "role": "school"},
+    {"login": "школа14", "password": "school14", "name": "Школа 14", "role": "school"},
+    {"login": "школа15", "password": "school15", "name": "Школа 15", "role": "school"},
+    {"login": "школа16", "password": "school16", "name": "Школа 16", "role": "school"},
+    {"login": "школа17", "password": "school17", "name": "Школа 17", "role": "school"},
+    {"login": "школа18", "password": "school18", "name": "Школа 18", "role": "school"},
+    {"login": "школа19", "password": "school19", "name": "Школа 19", "role": "school"}
+]

@@ -7,17 +7,17 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --primary: #2c3e50;
+            --primary: #2d2d2d;
             --accent: #e74c3c;
             --studio: #27ae60;
             --studio2: #2980b9;
             --outbound: #f39c12;
             --outbound2: #8e44ad;
-            --bg: #f5f7fa;
-            --card: #ffffff;
-            --text: #2c3e50;
-            --text-light: #7f8c8d;
-            --border: #e1e8ed;
+            --bg: #f5f5dc;
+            --card: #fffef5;
+            --text: #2d2d2d;
+            --text-light: #666;
+            --border: #d5d5c5;
             --shadow: 0 2px 8px rgba(0,0,0,0.08);
             --shadow-hover: 0 4px 16px rgba(0,0,0,0.12);
         }
@@ -134,7 +134,7 @@
 
         /* Calendar */
         .calendar-info {
-            background: #e8f4f8;
+            background: #f0f0e0;
             border-left: 4px solid var(--studio2);
             padding: 1rem;
             margin-bottom: 1.5rem;
@@ -168,13 +168,13 @@
             transform: translateY(-2px);
         }
         .calendar-day.disabled {
-            background: #f0f0f0;
-            color: #bbb;
+            background: #e8e8d8;
+            color: #aaa;
             cursor: default;
         }
         .calendar-day.active {
             border-color: var(--accent);
-            background: #fff5f5;
+            background: #fff0f0;
         }
         .calendar-day .day-number {
             font-weight: 600;
@@ -230,7 +230,7 @@
             gap: 0.75rem;
         }
         .workshop-card {
-            background: white;
+            background: var(--card);
             border: 2px solid var(--border);
             border-radius: 8px;
             padding: 1rem;
@@ -242,7 +242,7 @@
         .workshop-card.outbound { border-left: 4px solid var(--outbound); }
         .workshop-card.selected {
             border-color: var(--accent);
-            background: #fff5f5;
+            background: #fff0f0;
         }
         .workshop-card.full { opacity: 0.6; cursor: not-allowed; }
         .workshop-title { font-weight: 600; margin-bottom: 0.25rem; }
@@ -264,29 +264,48 @@
         /* Workshops Section */
         .workshops-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 2rem;
         }
         .workshop-info {
             background: var(--card);
             border-radius: 12px;
-            padding: 1.5rem;
+            padding: 2.5rem;
             box-shadow: var(--shadow);
-            border-top: 4px solid;
+            border-top: 6px solid;
             transition: transform 0.2s;
         }
         .workshop-info:hover { transform: translateY(-4px); }
         .workshop-info.studio { border-top-color: var(--studio); }
         .workshop-info.outbound { border-top-color: var(--outbound); }
-        .workshop-info h3 { margin-bottom: 0.5rem; }
+        .workshop-info h3 { margin-bottom: 0.75rem; font-size: 1.5rem; }
         .workshop-meta {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--text-light);
-            margin-bottom: 0.75rem;
+            margin-bottom: 1rem;
             display: flex;
             gap: 1rem;
+            flex-wrap: wrap;
         }
-        .workshop-desc { font-size: 0.95rem; color: #555; }
+        .workshop-desc { font-size: 1rem; color: #444; line-height: 1.7; margin-bottom: 1.5rem; }
+        .workshop-result {
+            background: rgba(0,0,0,0.03);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+        }
+        .workshop-result h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        .workshop-result ul {
+            margin: 0;
+            padding-left: 1.2rem;
+            font-size: 0.95rem;
+            color: #444;
+            line-height: 1.6;
+        }
+        .workshop-result li { margin-bottom: 0.35rem; }
 
         /* Teachers Section */
         .teachers-grid {
@@ -319,7 +338,7 @@
             font-size: 0.85rem;
             margin-bottom: 0.75rem;
         }
-        .teacher-bio { font-size: 0.9rem; color: #555; }
+        .teacher-bio { font-size: 0.9rem; color: #444; }
 
         /* Admin Panel */
         .admin-panel {
@@ -380,6 +399,38 @@
         }
         .booking-info { font-size: 0.9rem; }
         .booking-date { font-weight: 600; }
+
+        .booking-type-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .booking-type-card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border-top: 6px solid;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .booking-type-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+        .booking-type-card.studio { border-top-color: var(--studio); }
+        .booking-type-card.outbound { border-top-color: var(--outbound); }
+        .booking-type-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+        }
+        .booking-type-card p {
+            font-size: 0.95rem;
+            color: #444;
+            line-height: 1.6;
+        }
 
         footer {
             text-align: center;
@@ -479,6 +530,22 @@
         .blink {
             animation: cursorBlink 1.2s step-end infinite;
         }
+        .intro-contacts {
+            margin-top: 1.5rem;
+            font-size: 1rem;
+            color: #444;
+            line-height: 1.6;
+        }
+        .intro-contacts a {
+            color: #2c3e50;
+            text-decoration: none;
+            border-bottom: 1px dashed #999;
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .intro-contacts a:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
         .auth-form-marker {
             font-family: 'Kalam', 'Comic Sans MS', 'Segoe Print', 'Bradley Hand', cursive;
             color: #2d2d2d;
@@ -496,7 +563,7 @@
             font-size: 1.25rem;
             margin-bottom: 0.25rem;
         }
-        .marker-input {
+        .marker-input, select.marker-input {
             font-family: 'Kalam', 'Comic Sans MS', 'Segoe Print', 'Bradley Hand', cursive;
             font-size: 1.3rem;
             background: transparent;
@@ -506,6 +573,10 @@
             outline: none;
             width: 100%;
             padding: 0.25rem 0;
+        }
+        select.marker-input {
+            background: #f5f5dc;
+            cursor: pointer;
         }
         .marker-input::placeholder {
             color: #999;
@@ -631,19 +702,20 @@
             color: #0f0 !important;
             font-family: 'Courier New', Courier, monospace;
         }
-        .dos-auth-modal input {
+        .dos-auth-modal input, .dos-auth-modal select {
             background: #000 !important;
             border: 1px solid #008f11 !important;
             color: #00ff41 !important;
             border-radius: 0 !important;
             font-family: 'Courier New', Courier, monospace;
+            padding: 0.5rem;
         }
-        .dos-auth-modal input:focus {
+        .dos-auth-modal input:focus, .dos-auth-modal select:focus {
             outline: none;
             border-color: #00ff41 !important;
             box-shadow: 0 0 8px rgba(0,255,65,0.4);
         }
-        .dos-auth-modal input::placeholder {
+        .dos-auth-modal input::placeholder, .dos-auth-modal select::placeholder {
             color: #004d00;
         }
         .dos-btn-primary {
@@ -697,23 +769,61 @@
                 <h1 class="marker-title">Добро пожаловать<br>в КодаКидс!</h1>
                 <p class="marker-subtitle">Мы за магию нулей и единиц!</p>
                 <p class="marker-hint blink">Нажмите для продолжения</p>
+                <div class="intro-contacts">
+                    <p>Телефон: <a href="tel:+79994208168">+7 (999) 420-81-68</a></p>
+                    <p>Почта: <a href="mailto:yakovlev.nikita.2012@gmail.com">yakovlev.nikita.2012@gmail.com</a></p>
+                </div>
             </div>
         </div>
 
         <div class="slide-content" id="introAuth">
             <div class="auth-form-marker">
                 <h2 class="marker-title">Вход в систему</h2>
-                <div class="marker-field">
-                    <label>Логин:</label>
-                    <input type="text" id="introLoginInput" class="marker-input" placeholder="школа1">
+                <div id="introAuthSchool">
+                    <div class="marker-field">
+                        <label>Школа:</label>
+                        <select id="introSchoolSelect" class="marker-input">
+                            <option value="" disabled selected>Выберите школу</option>
+                            <option value="школа1">Школа №1</option>
+                            <option value="школа2">Школа №2</option>
+                            <option value="школа3">Школа №3</option>
+                            <option value="школа4">Школа №4</option>
+                            <option value="школа5">Школа №5</option>
+                            <option value="школа6">Школа №6</option>
+                            <option value="школа7">Школа №7</option>
+                            <option value="школа8">Школа №8</option>
+                            <option value="школа9">Школа №9</option>
+                            <option value="школа10">Школа №10</option>
+                            <option value="школа11">Школа №11</option>
+                            <option value="школа12">Школа №12</option>
+                            <option value="школа13">Школа №13</option>
+                            <option value="школа14">Школа №14</option>
+                            <option value="школа15">Школа №15</option>
+                            <option value="школа16">Школа №16</option>
+                            <option value="школа17">Школа №17</option>
+                            <option value="школа18">Школа №18</option>
+                            <option value="школа19">Школа №19</option>
+                        </select>
+                    </div>
+                    <div class="marker-field">
+                        <label>Пароль:</label>
+                        <input type="password" id="introPassInput" class="marker-input" placeholder="••••••">
+                    </div>
+                    <div class="marker-actions">
+                        <button class="marker-btn" onclick="doIntroLogin()">Войти</button>
+                        <button class="marker-btn" onclick="hideAuthSlide()">Отмена</button>
+                    </div>
+                    <button class="marker-btn" style="margin-top:0.75rem;background:transparent;color:#666;border:1px dashed #999;" onclick="showIntroAdminMode()">Войти как администратор</button>
                 </div>
-                <div class="marker-field">
-                    <label>Пароль:</label>
-                    <input type="password" id="introPassInput" class="marker-input" placeholder="••••••">
-                </div>
-                <div class="marker-actions">
-                    <button class="marker-btn" onclick="doIntroLogin()">Войти</button>
-                    <button class="marker-btn" onclick="hideAuthSlide()">Отмена</button>
+                <div id="introAuthAdmin" style="display:none;">
+                    <div class="marker-field">
+                        <label>Пароль администратора:</label>
+                        <input type="password" id="introAdminPassInput" class="marker-input" placeholder="••••••">
+                    </div>
+                    <div class="marker-actions">
+                        <button class="marker-btn" onclick="doIntroAdminLogin()">Войти</button>
+                        <button class="marker-btn" onclick="showIntroSchoolMode()">Назад</button>
+                    </div>
                 </div>
                 <div class="marker-error" id="introAuthErrorLine" style="display:none">Неверный логин или пароль</div>
             </div>
@@ -757,18 +867,53 @@
 <div class="modal-overlay dos-auth-overlay" id="authModal">
     <div class="modal dos-auth-modal">
         <h3>> Вход в систему</h3>
-        <div class="form-group">
-            <label>> Логин:</label>
-            <input type="text" id="loginInput" placeholder="Например: школа1">
+        <div id="authSchool">
+            <div class="form-group">
+                <label>> Школа:</label>
+                <select id="schoolSelect">
+                    <option value="" disabled selected>Выберите школу</option>
+                    <option value="школа1">Школа №1</option>
+                    <option value="школа2">Школа №2</option>
+                    <option value="школа3">Школа №3</option>
+                    <option value="школа4">Школа №4</option>
+                    <option value="школа5">Школа №5</option>
+                    <option value="школа6">Школа №6</option>
+                    <option value="школа7">Школа №7</option>
+                    <option value="школа8">Школа №8</option>
+                    <option value="школа9">Школа №9</option>
+                    <option value="школа10">Школа №10</option>
+                    <option value="школа11">Школа №11</option>
+                    <option value="школа12">Школа №12</option>
+                    <option value="школа13">Школа №13</option>
+                    <option value="школа14">Школа №14</option>
+                    <option value="школа15">Школа №15</option>
+                    <option value="школа16">Школа №16</option>
+                    <option value="школа17">Школа №17</option>
+                    <option value="школа18">Школа №18</option>
+                    <option value="школа19">Школа №19</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>> Пароль:</label>
+                <input type="password" id="passInput" placeholder="Введите пароль">
+            </div>
+            <div class="error-msg dos-error" id="authError">ОШИБКА: Неверный логин или пароль</div>
+            <div class="form-actions">
+                <button class="btn dos-btn-primary" onclick="doLogin()">Войти</button>
+                <button class="btn dos-btn-secondary" onclick="toggleAuth()">Отмена</button>
+            </div>
+            <button class="btn" style="margin-top:0.75rem;width:100%;background:transparent;color:#00ff41;border:1px dashed #00ff41;" onclick="showAdminMode()">Войти как администратор</button>
         </div>
-        <div class="form-group">
-            <label>> Пароль:</label>
-            <input type="password" id="passInput" placeholder="Введите пароль">
-        </div>
-        <div class="error-msg dos-error" id="authError">ОШИБКА: Неверный логин или пароль</div>
-        <div class="form-actions">
-            <button class="btn dos-btn-primary" onclick="doLogin()">Войти</button>
-            <button class="btn dos-btn-secondary" onclick="toggleAuth()">Отмена</button>
+        <div id="authAdmin" style="display:none;">
+            <div class="form-group">
+                <label>> Пароль администратора:</label>
+                <input type="password" id="adminPassInput" placeholder="Введите пароль">
+            </div>
+            <div class="error-msg dos-error" id="adminAuthError" style="display:none;">ОШИБКА: Неверный пароль</div>
+            <div class="form-actions">
+                <button class="btn dos-btn-primary" onclick="doAdminLogin()">Войти</button>
+                <button class="btn dos-btn-secondary" onclick="showSchoolMode()">Назад</button>
+            </div>
         </div>
     </div>
 </div>
@@ -785,43 +930,6 @@
 </div>
 
 <main>
-    <!-- My Bookings (visible when logged in) -->
-    <section id="myBookingsSection" style="display:none;">
-        <h2>Мои записи</h2>
-        <div class="my-bookings" id="myBookings"></div>
-    </section>
-
-    <!-- Calendar Section -->
-    <section id="calendar">
-        <h2>Календарь записи</h2>
-        <div class="calendar-info">
-            <strong>Июнь 2026</strong><br>
-            📅 <strong>4–12 июня</strong> (рабочие дни): запись на один мастеркласс на время <strong>15:30–17:00</strong><br>
-            📅 <strong>15–19 июня</strong> (рабочая неделя): запись на слоты с <strong>10:00 до 16:00</strong> (10:00–11:30, 12:00–13:30, 14:00–15:30)
-        </div>
-        <div class="legend">
-            <div class="legend-item"><div class="legend-box" style="background: var(--studio);"></div> В студии</div>
-            <div class="legend-item"><div class="legend-box" style="background: var(--outbound);"></div> Выездной</div>
-            <div class="legend-item"><div class="legend-box" style="background: #d4edda;"></div> Есть места</div>
-            <div class="legend-item"><div class="legend-box" style="background: #f8d7da;"></div> Занято</div>
-            <div class="legend-item"><div class="legend-box" style="background: #f0f0f0; border: 1px solid #ddd;"></div> Недоступно</div>
-        </div>
-        <div class="calendar-grid" id="calendarGrid"></div>
-    </section>
-
-    <!-- Workshops Section -->
-    <section id="workshops">
-        <h2>Мастерклассы</h2>
-        <div class="workshops-grid" id="workshopsGrid"></div>
-    </section>
-
-    <!-- Teachers Section -->
-    <section id="teachers">
-        <h2>Преподаватели</h2>
-        <div class="teachers-grid" id="teachersGrid"></div>
-    </section>
-
-    <!-- Admin Section -->
     <section id="admin" style="display:none;">
         <h2>Администрирование</h2>
         <div class="admin-panel">
@@ -850,6 +958,60 @@
             </div>
         </div>
     </section>
+
+    <!-- My Bookings (visible when logged in) -->
+    <section id="myBookingsSection" style="display:none;">
+        <h2>Мои записи</h2>
+        <div class="my-bookings" id="myBookings"></div>
+    </section>
+
+    <!-- Calendar Section -->
+    <section id="calendar">
+        <h2>Запись на мастерклассы</h2>
+
+        <div id="bookingTypeSelector" class="booking-type-selector">
+            <div class="booking-type-card studio" onclick="showCalendar('studio')">
+                <h3>Мастерклассы в студии</h3>
+                <p>Мастеркласс пройдёт в студии «КодаКидс» по адресу <strong>г. Ангарск, 30 мкр, д 1</strong> в выбранное вами время. Вам необходимо прибыть на место за 10–15 минут до начала.</p>
+                <a href="https://yandex.ru/maps/-/CPsSZJNj" target="_blank" class="btn btn-primary" style="margin-top:1rem;" onclick="event.stopPropagation();">Показать на карте</a>
+            </div>
+            <div class="booking-type-card outbound" onclick="showCalendar('outbound')">
+                <h3>Выездные мастерклассы</h3>
+                <p>Мы приедем к вам. Вам необходимо подготовить рабочие места с компьютерами на каждого ребёнка, с доступом в интернет и отсутствием паролей. Вы можете установить необходимое ПО самостоятельно — инструкции и ПО мы пришлём на вашу почту, либо доплатить преподавателю <strong>1 000 ₽</strong>, и он приедет заранее и настроит всё сам.</p>
+            </div>
+        </div>
+
+        <div id="calendarWrapper" style="display:none;">
+            <button class="btn" style="margin-bottom:1rem;background:var(--primary);color:white;" onclick="hideCalendar()">← Назад к выбору</button>
+            <div class="calendar-info">
+                <strong>Июнь 2026</strong><br>
+                📅 <strong>4–12 июня</strong> (рабочие дни): запись на один мастеркласс на время <strong>15:30–17:00</strong><br>
+                📅 <strong>15–19 июня</strong> (рабочая неделя): запись на слоты с <strong>10:00 до 16:00</strong> (10:00–11:30, 12:00–13:30, 14:00–15:30)
+            </div>
+            <div class="legend">
+                <div class="legend-item"><div class="legend-box" style="background: var(--studio);"></div> В студии</div>
+                <div class="legend-item"><div class="legend-box" style="background: var(--outbound);"></div> Выездной</div>
+                <div class="legend-item"><div class="legend-box" style="background: #d4edda;"></div> Есть места</div>
+                <div class="legend-item"><div class="legend-box" style="background: #f8d7da;"></div> Занято</div>
+                <div class="legend-item"><div class="legend-box" style="background: #f0f0f0; border: 1px solid #ddd;"></div> Недоступно</div>
+            </div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+        </div>
+    </section>
+
+    <!-- Workshops Section -->
+    <section id="workshops">
+        <h2>Мастерклассы</h2>
+        <div class="workshops-grid" id="workshopsGrid"></div>
+    </section>
+
+    <!-- Teachers Section -->
+    <section id="teachers">
+        <h2>Преподаватели</h2>
+        <div class="teachers-grid" id="teachersGrid"></div>
+    </section>
+
+    <!-- Admin Section -->
 </main>
 
 <footer>
@@ -876,7 +1038,13 @@
                 id: 'hacker',
                 title: 'Этичный хакер',
                 shortDesc: 'Практика по информационной безопасности',
-                fullDesc: 'Практическое погружение в информационную безопасность через учебный полигон в локальной сети. Участники проходят четыре лабораторных задания: разведка сайта, перебор слабых паролей, поиск уязвимости XSS и анализ cookies. Всё происходит внутри специально поднятого Docker-контейнера, никаких атак на реальные сайты. В конце обсуждается, как защититься от каждой атаки, и выдаётся памятка участника.',
+                fullDesc: 'Ребята учатся мыслить как настоящие специалисты по защите информации. Они ищут скрытые подсказки на специальном учебном сайте, пробуют разные комбинации паролей, находят секретные окошки, через которые можно попасть туда, куда не положено, и разбирают, как устроены секретные ключи доступа. Всё происходит на безопасном тренажёре — никаких реальных сайтов и опасных действий.',
+                result: [
+                    'Умеют находить слабые места на сайтах',
+                    'Знают, как придумывать надёжные пароли',
+                    'Понимают, как защитить свои аккаунты',
+                    'Получают памятку по безопасности'
+                ],
                 format: 'В студии',
                 duration: '1.5 часа',
                 maxSlots: 12,
@@ -887,7 +1055,13 @@
                 id: 'webai',
                 title: 'Веб-игра ИИ',
                 shortDesc: 'Создание игры с помощью нейросетей',
-                fullDesc: 'Участники придумывают концепцию простой браузерной игры, составляют промт для нейросети и получают готовый HTML-код. Затем тестируют игру в браузере, просят ИИ исправить ошибки, генерируют спрайты через Кандинского и вставляют их вместо цветных заглушек. Результат — однофайловая игра, которая запускается на любом устройстве без установки.',
+                fullDesc: 'Дети придумывают свою собственную игру — например, про космического котика или приключения в джунглях. Они рассказывают компьютеру, как должна выглядеть игра, а умный помощник создаёт код. Потом ребята проверяют, как всё работает, просят исправить ошибки и добавляют картинки. В итоге у каждого получается настоящая игра, которую можно открыть в браузере на любом устройстве.',
+                result: [
+                    'Создают свою игру с нуля',
+                    'Учатся объяснять компьютеру, что они хотят',
+                    'Получают готовую игру, которая работает на телефоне и компьютере',
+                    'Могут показать её друзьям и родителям'
+                ],
                 format: 'В студии',
                 duration: '1.5 часа',
                 maxSlots: 12,
@@ -900,7 +1074,12 @@
                 id: 'hero',
                 title: 'Оживи героя',
                 shortDesc: '2D-аркада в Scratch',
-                fullDesc: 'Дети создают простую 2D-аркаду в Scratch, а затем упаковывают проект в один HTML-файл. Получается игра, которая запускается в браузере без интернета и без Scratch-аккаунта. Каждый ребёнок уходит с файлом на флешке.',
+                fullDesc: 'Ребята рисуют своего героя и заставляют его бегать, прыгать и собирать сокровища. Они придумывают уровни, добавляют препятствия и настраивают правила игры. В конце каждый ребёнок получает файл своей игры на флешку — можно принести домой и показать родителям.',
+                result: [
+                    'Создают своего персонажа и мир для него',
+                    'Придумывают правила и уровни',
+                    'Получают игру на флешку, чтобы играть дома'
+                ],
                 format: 'Выездной',
                 duration: '1.5 часа',
                 maxSlots: 999,
@@ -911,7 +1090,12 @@
                 id: 'godot',
                 title: 'Инди-игра в Godot',
                 shortDesc: '2D-платформер в Godot',
-                fullDesc: 'Подростки собирают 2D-платформер в Godot: настраивают физику, добавляют врагов, сбор монет и экран победы. Используется готовый шаблон проекта, чтобы сразу работать с логикой, а не тратить время на пустую настройку. В конце каждый получает рабочий файл игры, который можно запустить на ПК и передать друзьям.',
+                fullDesc: 'Ребята создают приключенческую игру, где персонаж бегает по платформам, собирает монетки и побеждает злодеев. Они настраивают, как персонаж прыгает и падает, добавляют врагов и финальный экран победы. В конце каждый получает файл игры, которую можно запустить на компьютере и передать друзьям.',
+                result: [
+                    'Создают полноценную приключенческую игру',
+                    'Настраивают движение, прыжки и бои',
+                    'Получают файл игры для домашнего компьютера'
+                ],
                 format: 'Выездной',
                 duration: '1.5 часа',
                 maxSlots: 999,
@@ -934,6 +1118,7 @@
     // ===================== STATE =====================
     let currentUser = null;
     let bookings = [];
+    let selectedBookingType = null;
 
     // ===================== CODE TYPING INTRO =====================
     const codeLines = [
@@ -1063,7 +1248,7 @@
     }
 
     function doIntroLogin() {
-        const login = document.getElementById('introLoginInput').value.trim().toLowerCase();
+        const login = document.getElementById('introSchoolSelect').value;
         const pass = document.getElementById('introPassInput').value;
         const user = USERS.find(u => u.login === login && u.password === pass);
         if (user) {
@@ -1074,16 +1259,48 @@
             if (user.role === 'admin') {
                 renderAdminTable();
             }
-            document.getElementById('introLoginInput').value = '';
+            document.getElementById('introSchoolSelect').value = '';
             document.getElementById('introPassInput').value = '';
+            document.getElementById('introAuthErrorLine').style.display = 'none';
         } else {
             document.getElementById('introAuthErrorLine').style.display = 'block';
         }
     }
 
+    function doIntroAdminLogin() {
+        const pass = document.getElementById('introAdminPassInput').value;
+        const user = USERS.find(u => u.login === 'admin' && u.password === pass);
+        if (user) {
+            currentUser = { login: user.login, name: user.name, role: user.role };
+            saveState();
+            completeIntro();
+            updateUI();
+            renderAdminTable();
+            document.getElementById('introAdminPassInput').value = '';
+            document.getElementById('introAuthErrorLine').style.display = 'none';
+        } else {
+            document.getElementById('introAuthErrorLine').style.display = 'block';
+        }
+    }
+
+    function showIntroAdminMode() {
+        document.getElementById('introAuthSchool').style.display = 'none';
+        document.getElementById('introAuthAdmin').style.display = '';
+        document.getElementById('introAuthErrorLine').style.display = 'none';
+    }
+
+    function showIntroSchoolMode() {
+        document.getElementById('introAuthSchool').style.display = '';
+        document.getElementById('introAuthAdmin').style.display = 'none';
+        document.getElementById('introAuthErrorLine').style.display = 'none';
+    }
+
     // ===================== INIT =====================
     function init() {
         loadState();
+        if (currentUser) {
+            document.getElementById('introScreen').style.display = 'none';
+        }
         startCodeTyping();
 
         document.getElementById('introScreen').addEventListener('click', function(e) {
@@ -1133,7 +1350,7 @@
     }
 
     function doLogin() {
-        const login = document.getElementById('loginInput').value.trim().toLowerCase();
+        const login = document.getElementById('schoolSelect').value;
         const pass = document.getElementById('passInput').value;
         const user = USERS.find(u => u.login === login && u.password === pass);
         if (user) {
@@ -1144,17 +1361,53 @@
             if (user.role === 'admin') {
                 renderAdminTable();
             }
-            document.getElementById('loginInput').value = '';
+            document.getElementById('schoolSelect').value = '';
             document.getElementById('passInput').value = '';
+            document.getElementById('authError').classList.remove('show');
         } else {
             document.getElementById('authError').classList.add('show');
         }
+    }
+
+    function doAdminLogin() {
+        const pass = document.getElementById('adminPassInput').value;
+        const user = USERS.find(u => u.login === 'admin' && u.password === pass);
+        if (user) {
+            currentUser = { login: user.login, name: user.name, role: user.role };
+            saveState();
+            toggleAuth();
+            updateUI();
+            renderAdminTable();
+            document.getElementById('adminPassInput').value = '';
+            document.getElementById('adminAuthError').classList.remove('show');
+        } else {
+            document.getElementById('adminAuthError').classList.add('show');
+        }
+    }
+
+    function showAdminMode() {
+        document.getElementById('authSchool').style.display = 'none';
+        document.getElementById('authAdmin').style.display = '';
+        document.getElementById('authError').classList.remove('show');
+    }
+
+    function showSchoolMode() {
+        document.getElementById('authSchool').style.display = '';
+        document.getElementById('authAdmin').style.display = 'none';
+        document.getElementById('adminAuthError').classList.remove('show');
     }
 
     function doLogout() {
         currentUser = null;
         saveState();
         updateUI();
+
+        const intro = document.getElementById('introScreen');
+        intro.style.display = '';
+        intro.classList.add('slide-out');
+        void intro.offsetWidth;
+        intro.classList.remove('slide-out');
+        hideAuthSlide();
     }
 
     function updateUI() {
@@ -1189,6 +1442,19 @@
     }
 
     // ===================== CALENDAR =====================
+    function showCalendar(type) {
+        selectedBookingType = type;
+        document.getElementById('bookingTypeSelector').style.display = 'none';
+        document.getElementById('calendarWrapper').style.display = '';
+        renderCalendar();
+    }
+
+    function hideCalendar() {
+        selectedBookingType = null;
+        document.getElementById('bookingTypeSelector').style.display = '';
+        document.getElementById('calendarWrapper').style.display = 'none';
+    }
+
     function renderCalendar() {
         const grid = document.getElementById('calendarGrid');
         grid.innerHTML = '';
@@ -1344,7 +1610,7 @@
             const workshopsDiv = document.createElement('div');
             workshopsDiv.className = 'slot-workshops';
 
-            ALL_WORKSHOPS.forEach(ws => {
+            ALL_WORKSHOPS.filter(ws => ws.type === selectedBookingType).forEach(ws => {
                 const card = document.createElement('div');
                 card.className = `workshop-card ${ws.type}`;
 
@@ -1387,7 +1653,10 @@
                 if (!isMyBooking && status !== 'full' && !alreadyBooked) {
                     card.onclick = () => bookWorkshop(day, slot, ws.id);
                 } else if (isMyBooking) {
-                    card.onclick = () => cancelBooking(day, slot, ws.id);
+                    card.onclick = () => {
+                        cancelBooking(day, slot, ws.id);
+                        openBookingModal(day, PHASE1_DATES.includes(day));
+                    };
                 }
 
                 workshopsDiv.appendChild(card);
@@ -1446,7 +1715,6 @@
         if (idx !== -1) {
             bookings.splice(idx, 1);
             saveState();
-            openBookingModal(day, PHASE1_DATES.includes(day));
             renderCalendar();
             renderMyBookings();
             if (currentUser.role === 'admin') renderAdminTable();
@@ -1479,7 +1747,7 @@
                     <div class="booking-date">${b.day} июня — ${b.time}</div>
                     <div>${b.workshopName} <span class="badge badge-${b.type}">${b.type === 'studio' ? 'В студии' : 'Выездной'}</span></div>
                 </div>
-                <button class="btn btn-secondary" style="font-size: 0.8rem;" onclick="cancelBooking(${b.day}, '${b.time}', '${b.workshopId}')">Отменить</button>
+                <button class="btn btn-primary" style="font-size: 0.8rem;" onclick="cancelBooking(${b.day}, '${b.time}', '${b.workshopId}')">Отменить</button>
             `;
             container.appendChild(item);
         });
@@ -1500,6 +1768,12 @@
                     ${ws.type === 'studio' ? '<span>👥 до 12 чел.</span>' : ''}
                 </div>
                 <p class="workshop-desc">${ws.fullDesc}</p>
+                <div class="workshop-result">
+                    <h4>Результат</h4>
+                    <ul>
+                        ${ws.result.map(r => `<li>${r}</li>`).join('')}
+                    </ul>
+                </div>
             `;
             grid.appendChild(card);
         });
@@ -1551,7 +1825,7 @@
                 <td>${b.time}</td>
                 <td>${b.workshopName}</td>
                 <td><span class="badge badge-${b.type}">${b.type === 'studio' ? 'В студии' : 'Выездной'}</span></td>
-                <td><button class="btn btn-secondary" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" onclick="adminCancelBooking('${b.id}')">Отменить</button></td>
+                <td><button class="btn btn-primary" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" onclick="adminCancelBooking('${b.id}')">Отменить</button></td>
             `;
             tbody.appendChild(tr);
         });

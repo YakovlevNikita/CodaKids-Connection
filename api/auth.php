@@ -1,6 +1,5 @@
 <?php
 require_once __DIR__ . '/utils.php';
-session_start();
 
 $input = json_decode(file_get_contents('php://input'), true);
 $login = $input['login'] ?? '';
@@ -22,6 +21,7 @@ foreach ($users as $u) {
 }
 
 if ($user) {
+    session_start();
     $_SESSION['user'] = ['login' => $user['login'], 'name' => $user['name'], 'role' => $user['role']];
     jsonResponse(['success' => true, 'user' => $_SESSION['user']]);
 } else {

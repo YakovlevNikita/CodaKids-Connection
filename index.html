@@ -141,55 +141,94 @@
             border-radius: 0 8px 8px 0;
             font-size: 0.95rem;
         }
-        .calendar-grid {
+        /* Calendar Cards */
+        .calendar-days-grid {
             display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 0.75rem;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1rem;
         }
-        .calendar-header {
-            text-align: center;
-            font-weight: 600;
-            color: var(--text-light);
-            padding: 0.5rem;
-            font-size: 0.85rem;
-        }
-        .calendar-day {
+        .day-card {
             background: var(--card);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 0.75rem;
-            min-height: 80px;
-            cursor: pointer;
-            transition: all 0.2s;
-            position: relative;
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s;
         }
-        .calendar-day:hover:not(.disabled) {
-            box-shadow: var(--shadow-hover);
+        .day-card:hover {
             transform: translateY(-2px);
         }
-        .calendar-day.disabled {
-            background: #e8e8d8;
-            color: #aaa;
-            cursor: default;
-        }
-        .calendar-day.active {
-            border-color: var(--accent);
-            background: #fff0f0;
-        }
-        .calendar-day .day-number {
+        .day-card-header {
+            text-align: center;
             font-weight: 600;
-            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
         }
-        .calendar-day .day-status {
-            font-size: 0.7rem;
-            margin-top: 0.25rem;
-            padding: 0.15rem 0.4rem;
-            border-radius: 4px;
-            display: inline-block;
+        .day-card-header .day-name {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-transform: lowercase;
         }
-        .status-open { background: #d4edda; color: #155724; }
-        .status-full { background: #f8d7da; color: #721c24; }
-        .status-phase1 { background: #fff3cd; color: #856404; }
+        .day-card-header .day-number {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        .time-slots {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .time-slot {
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            border: 1px solid transparent;
+        }
+        .time-slot.free {
+            background: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+        .time-slot.free.outbound {
+            background: #ffe0b2;
+            color: #e65100;
+            border-color: #ffcc80;
+        }
+        .time-slot.free:hover {
+            box-shadow: 0 0 0 2px var(--primary);
+            transform: scale(1.02);
+        }
+        .time-slot.free.outbound:hover {
+            box-shadow: 0 0 0 2px var(--outbound);
+        }
+        .time-slot.occupied {
+            background: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+            cursor: default;
+            font-size: 0.8rem;
+        }
+        .time-slot.my-booking {
+            background: #fff0f0;
+            color: var(--accent);
+            border-color: var(--accent);
+            font-weight: 600;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .calendar-days-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 480px) {
+            .calendar-days-grid {
+                grid-template-columns: 1fr;
+            }
+        }
 
         /* Legend */
         .legend {
@@ -331,6 +370,16 @@
             color: white;
             font-size: 2rem;
             font-weight: 700;
+            position: relative;
+            overflow: hidden;
+        }
+        .teacher-photo img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
         }
         .teacher-card h3 { margin-bottom: 0.25rem; }
         .teacher-role {
@@ -602,6 +651,36 @@
             background: #2d2d2d;
             color: #f5f5dc;
         }
+        .password-wrapper {
+            position: relative;
+        }
+        .password-wrapper input {
+            padding-right: 2.5rem;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0;
+            opacity: 0.6;
+            line-height: 1;
+        }
+        .toggle-password:hover {
+            opacity: 1;
+        }
+        .dos-auth-modal .password-wrapper input {
+            padding-right: 2.5rem;
+        }
+        .dos-auth-modal .toggle-password {
+            color: #00ff41;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+        }
         .marker-error {
             margin-top: 1rem;
             color: #c0392b;
@@ -748,13 +827,9 @@
         }
 
         @media (max-width: 768px) {
-            .calendar-grid { grid-template-columns: repeat(7, 1fr); gap: 0.25rem; }
-            .calendar-day { min-height: 50px; padding: 0.4rem; font-size: 0.8rem; }
             .slot-workshops { grid-template-columns: 1fr; }
             .header-content { flex-direction: column; align-items: flex-start; }
             nav { flex-wrap: wrap; }
-            .intro-content h1 { font-size: 1.5rem; }
-            .intro-content p { font-size: 1rem; }
         }
     </style>
 </head>
@@ -807,21 +882,49 @@
                     </div>
                     <div class="marker-field">
                         <label>Пароль:</label>
-                        <input type="password" id="introPassInput" class="marker-input" placeholder="••••••">
+                        <div class="password-wrapper">
+                            <input type="password" id="introPassInput" class="marker-input" placeholder="••••••">
+                            <button type="button" class="toggle-password" onclick="togglePasswordVisibility('introPassInput', this)" title="Показать пароль">👁</button>
+                        </div>
                     </div>
                     <div class="marker-actions">
-                        <button class="marker-btn" onclick="doIntroLogin()">Войти</button>
+                        <button class="marker-btn" id="introLoginBtn" onclick="doIntroLogin()">Войти</button>
                         <button class="marker-btn" onclick="hideAuthSlide()">Отмена</button>
                     </div>
                     <button class="marker-btn" style="margin-top:0.75rem;background:transparent;color:#666;border:1px dashed #999;" onclick="showIntroAdminMode()">Войти как администратор</button>
+                    <button class="marker-btn" style="margin-top:0.5rem;background:transparent;color:#666;border:1px dashed #999;" onclick="showIntroTeacherMode()">Войти как преподаватель</button>
                 </div>
                 <div id="introAuthAdmin" style="display:none;">
                     <div class="marker-field">
                         <label>Пароль администратора:</label>
-                        <input type="password" id="introAdminPassInput" class="marker-input" placeholder="••••••">
+                        <div class="password-wrapper">
+                            <input type="password" id="introAdminPassInput" class="marker-input" placeholder="••••••">
+                            <button type="button" class="toggle-password" onclick="togglePasswordVisibility('introAdminPassInput', this)" title="Показать пароль">👁</button>
+                        </div>
                     </div>
                     <div class="marker-actions">
-                        <button class="marker-btn" onclick="doIntroAdminLogin()">Войти</button>
+                        <button class="marker-btn" id="introAdminLoginBtn" onclick="doIntroAdminLogin()">Войти</button>
+                        <button class="marker-btn" onclick="showIntroSchoolMode()">Назад</button>
+                    </div>
+                </div>
+                <div id="introAuthTeacher" style="display:none;">
+                    <div class="marker-field">
+                        <label>Преподаватель:</label>
+                        <select id="introTeacherSelect" class="marker-input">
+                            <option value="" disabled selected>Выберите преподавателя</option>
+                            <option value="yakovlev">Яковлев Никита Андреевич</option>
+                            <option value="semenyuk">Семенюк Лариса Валерьевна</option>
+                        </select>
+                    </div>
+                    <div class="marker-field">
+                        <label>Пароль:</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="introTeacherPassInput" class="marker-input" placeholder="••••••">
+                            <button type="button" class="toggle-password" onclick="togglePasswordVisibility('introTeacherPassInput', this)" title="Показать пароль">👁</button>
+                        </div>
+                    </div>
+                    <div class="marker-actions">
+                        <button class="marker-btn" id="introTeacherLoginBtn" onclick="doIntroTeacherLogin()">Войти</button>
                         <button class="marker-btn" onclick="showIntroSchoolMode()">Назад</button>
                     </div>
                 </div>
@@ -895,23 +998,52 @@
             </div>
             <div class="form-group">
                 <label>> Пароль:</label>
-                <input type="password" id="passInput" placeholder="Введите пароль">
+                <div class="password-wrapper">
+                    <input type="password" id="passInput" placeholder="Введите пароль">
+                    <button type="button" class="toggle-password" onclick="togglePasswordVisibility('passInput', this)" title="Показать пароль">👁</button>
+                </div>
             </div>
             <div class="error-msg dos-error" id="authError">ОШИБКА: Неверный логин или пароль</div>
             <div class="form-actions">
-                <button class="btn dos-btn-primary" onclick="doLogin()">Войти</button>
+                <button class="btn dos-btn-primary" id="modalLoginBtn" onclick="doLogin()">Войти</button>
                 <button class="btn dos-btn-secondary" onclick="toggleAuth()">Отмена</button>
             </div>
             <button class="btn" style="margin-top:0.75rem;width:100%;background:transparent;color:#00ff41;border:1px dashed #00ff41;" onclick="showAdminMode()">Войти как администратор</button>
+            <button class="btn" style="margin-top:0.5rem;width:100%;background:transparent;color:#00ff41;border:1px dashed #00ff41;" onclick="showTeacherMode()">Войти как преподаватель</button>
         </div>
         <div id="authAdmin" style="display:none;">
             <div class="form-group">
                 <label>> Пароль администратора:</label>
-                <input type="password" id="adminPassInput" placeholder="Введите пароль">
+                <div class="password-wrapper">
+                    <input type="password" id="adminPassInput" placeholder="Введите пароль">
+                    <button type="button" class="toggle-password" onclick="togglePasswordVisibility('adminPassInput', this)" title="Показать пароль">👁</button>
+                </div>
             </div>
             <div class="error-msg dos-error" id="adminAuthError" style="display:none;">ОШИБКА: Неверный пароль</div>
             <div class="form-actions">
-                <button class="btn dos-btn-primary" onclick="doAdminLogin()">Войти</button>
+                <button class="btn dos-btn-primary" id="modalAdminLoginBtn" onclick="doAdminLogin()">Войти</button>
+                <button class="btn dos-btn-secondary" onclick="showSchoolMode()">Назад</button>
+            </div>
+        </div>
+        <div id="authTeacher" style="display:none;">
+            <div class="form-group">
+                <label>> Преподаватель:</label>
+                <select id="teacherSelect">
+                    <option value="" disabled selected>Выберите преподавателя</option>
+                    <option value="yakovlev">Яковлев Никита Андреевич</option>
+                    <option value="semenyuk">Семенюк Лариса Валерьевна</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>> Пароль:</label>
+                <div class="password-wrapper">
+                    <input type="password" id="teacherPassInput" placeholder="Введите пароль">
+                    <button type="button" class="toggle-password" onclick="togglePasswordVisibility('teacherPassInput', this)" title="Показать пароль">👁</button>
+                </div>
+            </div>
+            <div class="error-msg dos-error" id="teacherAuthError" style="display:none;">ОШИБКА: Неверный логин или пароль</div>
+            <div class="form-actions">
+                <button class="btn dos-btn-primary" id="modalTeacherLoginBtn" onclick="doTeacherLogin()">Войти</button>
                 <button class="btn dos-btn-secondary" onclick="showSchoolMode()">Назад</button>
             </div>
         </div>
@@ -956,6 +1088,28 @@
                     <tbody id="adminTableBody"></tbody>
                 </table>
             </div>
+
+            <div style="margin-top: 2.5rem; padding-top: 1.5rem; border-top: 2px solid var(--border);">
+                <h3 style="font-size: 1.25rem; margin-bottom: 1rem; color: var(--primary);">Управление пользователями</h3>
+                <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: flex-end; margin-bottom: 0.5rem;">
+                    <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
+                        <label style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 0.25rem; display: block;">Пользователь</label>
+                        <select id="adminUserSelect" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem; background: white;">
+                            <option value="" disabled selected>Загрузка...</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
+                        <label style="font-size: 0.85rem; color: var(--text-light); margin-bottom: 0.25rem; display: block;">Новый пароль</label>
+                        <div class="password-wrapper">
+                            <input type="password" id="adminNewPassword" placeholder="Введите новый пароль" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem;">
+                            <button type="button" class="toggle-password" onclick="togglePasswordVisibility('adminNewPassword', this)" title="Показать пароль">👁</button>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="changeUserPassword()" style="height: fit-content;">🔑 Сменить пароль</button>
+                </div>
+                <div id="passwordChangeError" style="display:none; color: var(--accent); font-size: 0.9rem; margin-top: 0.5rem;"></div>
+                <div id="passwordChangeSuccess" style="display:none; color: var(--studio); font-size: 0.9rem; margin-top: 0.5rem;"></div>
+            </div>
         </div>
     </section>
 
@@ -973,22 +1127,42 @@
             <div class="booking-type-card studio" onclick="showCalendar('studio')">
                 <h3>Мастерклассы в студии</h3>
                 <p>Мастеркласс пройдёт в студии «КодаКидс» по адресу <strong>г. Ангарск, 30 мкр, д 1</strong> в выбранное вами время. Вам необходимо прибыть на место за 10–15 минут до начала.</p>
+                <p style="margin-top:0.75rem;font-weight:600;color:var(--studio);">💰 Цена: 500 ₽ с человека</p>
                 <a href="https://yandex.ru/maps/-/CPsSZJNj" target="_blank" class="btn btn-primary" style="margin-top:1rem;" onclick="event.stopPropagation();">Показать на карте</a>
             </div>
-            <div class="booking-type-card outbound" onclick="showCalendar('outbound')">
+            <div class="booking-type-card outbound" onclick="showOutboundGroups()">
                 <h3>Выездные мастерклассы</h3>
-                <p>Мы приедем к вам. Вам необходимо подготовить рабочие места с компьютерами на каждого ребёнка, с доступом в интернет и отсутствием паролей. Вы можете установить необходимое ПО самостоятельно — инструкции и ПО мы пришлём на вашу почту, либо доплатить преподавателю <strong>1 000 ₽</strong>, и он приедет заранее и настроит всё сам.</p>
+                <p>Мы приедем к вам заранее и всё настроим. С вас только помещение и оборудование (компьютеры с доступом в интернет).</p>
+                <p style="margin-top:0.75rem;font-weight:600;color:var(--outbound);">💰 Цена: 1 000 ₽ с человека</p>
+            </div>
+        </div>
+
+        <div id="outboundGroupSelector" style="display:none;">
+            <button class="btn" style="margin-bottom:1rem;background:var(--primary);color:white;" onclick="showBookingTypeSelector()">← Назад к выбору</button>
+            <div class="booking-type-selector">
+                <div class="booking-type-card outbound" onclick="showCalendar('outbound-it')">
+                    <h3>IT-Мастерклассы</h3>
+                    <p>создание уникальных персонажей и игр с использованием ПК</p>
+                    <p style="margin-top:0.5rem;font-weight:600;">Преподаватель: Яковлев Н.А.</p>
+                    <p style="margin-top:0.75rem;font-weight:600;color:var(--outbound);">💰 Цена: 1 000 ₽ с человека</p>
+                </div>
+                <div class="booking-type-card outbound" onclick="showCalendar('outbound-art')">
+                    <h3>Арт-тренинги</h3>
+                    <p>поговорим о гаджетах или психотипах в увлекательной форме</p>
+                    <p style="margin-top:0.5rem;font-weight:600;">Преподаватель: Семенюк Л.В.</p>
+                    <p style="margin-top:0.75rem;font-weight:600;color:var(--outbound);">💰 Цена: 1 000 ₽ с человека</p>
+                </div>
             </div>
         </div>
 
         <div id="calendarWrapper" style="display:none;">
             <button class="btn" style="margin-bottom:1rem;background:var(--primary);color:white;" onclick="hideCalendar()">← Назад к выбору</button>
-            <div class="calendar-info">
+            <div class="calendar-info" id="calendarInfo">
                 <strong>Июнь 2026</strong><br>
                 📅 <strong>4–12 июня</strong> (рабочие дни): запись на один мастеркласс на время <strong>15:30–17:00</strong><br>
                 📅 <strong>15–19 июня</strong> (рабочая неделя): запись на слоты с <strong>10:00 до 16:00</strong> (10:00–11:30, 12:00–13:30, 14:00–15:30)
             </div>
-            <div class="legend">
+            <div class="legend" id="calendarLegend">
                 <div class="legend-item"><div class="legend-box" style="background: var(--studio);"></div> В студии</div>
                 <div class="legend-item"><div class="legend-box" style="background: var(--outbound);"></div> Выездной</div>
                 <div class="legend-item"><div class="legend-box" style="background: #d4edda;"></div> Есть места</div>
@@ -997,6 +1171,20 @@
             </div>
             <div class="calendar-grid" id="calendarGrid"></div>
         </div>
+    </section>
+
+    <!-- Teacher Dashboard -->
+    <section id="teacherDashboard" style="display:none;">
+        <h2>Расписание мастерклассов</h2>
+
+        <h3 style="margin: 2rem 0 1rem; color: var(--studio); border-left: 4px solid var(--studio); padding-left: 0.75rem;">Мастерклассы в студии</h3>
+        <div class="calendar-days-grid" id="teacherCalendarStudio"></div>
+
+        <h3 style="margin: 2rem 0 1rem; color: var(--outbound); border-left: 4px solid var(--outbound); padding-left: 0.75rem;">Выездные IT-мастерклассы — Яковлев Н.А.</h3>
+        <div class="calendar-days-grid" id="teacherCalendarOutboundIt"></div>
+
+        <h3 style="margin: 2rem 0 1rem; color: #e74c3c; border-left: 4px solid #e74c3c; padding-left: 0.75rem;">Выездные арт-тренинги — Семенюк Л.В.</h3>
+        <div class="calendar-days-grid" id="teacherCalendarOutboundArt"></div>
     </section>
 
     <!-- Workshops Section -->
@@ -1019,13 +1207,16 @@
 </footer>
 
 <script>
-    const MONTH_NAMES = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
     const DAY_NAMES = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
 
     // ===================== STATE =====================
     let currentUser = null;
     let bookings = [];
     let selectedBookingType = null;
+    let selectedOutboundGroup = null;
+    let bookingModalDay = null;
+    let bookingModalSlot = null;
+    let selectedWorkshopId = null;
     let workshopsData = null;
     let PHASE1_DATES, PHASE2_DATES, PHASE1_SLOT, PHASE2_SLOTS, ALL_WORKSHOPS;
 
@@ -1149,6 +1340,7 @@
         document.getElementById('introWelcome').classList.remove('hidden-left');
         document.getElementById('introAuth').classList.remove('active');
         document.getElementById('introAuthErrorLine').style.display = 'none';
+        showIntroSchoolMode();
     }
 
     function completeIntro() {
@@ -1166,6 +1358,7 @@
     }
 
     async function doIntroLogin() {
+        setBtnLoading('introLoginBtn', true);
         const login = document.getElementById('introSchoolSelect').value;
         const pass = document.getElementById('introPassInput').value;
         try {
@@ -1182,6 +1375,7 @@
                 completeIntro();
                 updateUI();
                 if (currentUser.role === 'admin') renderAdminTable();
+                if (currentUser.role === 'teacher') renderTeacherCalendars();
                 document.getElementById('introSchoolSelect').value = '';
                 document.getElementById('introPassInput').value = '';
                 document.getElementById('introAuthErrorLine').style.display = 'none';
@@ -1190,10 +1384,13 @@
             }
         } catch (e) {
             document.getElementById('introAuthErrorLine').style.display = 'block';
+        } finally {
+            setBtnLoading('introLoginBtn', false);
         }
     }
 
     async function doIntroAdminLogin() {
+        setBtnLoading('introAdminLoginBtn', true);
         const pass = document.getElementById('introAdminPassInput').value;
         try {
             const res = await fetch('api/auth.php', {
@@ -1216,6 +1413,8 @@
             }
         } catch (e) {
             document.getElementById('introAuthErrorLine').style.display = 'block';
+        } finally {
+            setBtnLoading('introAdminLoginBtn', false);
         }
     }
 
@@ -1228,7 +1427,45 @@
     function showIntroSchoolMode() {
         document.getElementById('introAuthSchool').style.display = '';
         document.getElementById('introAuthAdmin').style.display = 'none';
+        document.getElementById('introAuthTeacher').style.display = 'none';
         document.getElementById('introAuthErrorLine').style.display = 'none';
+    }
+
+    function showIntroTeacherMode() {
+        document.getElementById('introAuthSchool').style.display = 'none';
+        document.getElementById('introAuthAdmin').style.display = 'none';
+        document.getElementById('introAuthTeacher').style.display = '';
+        document.getElementById('introAuthErrorLine').style.display = 'none';
+    }
+
+    async function doIntroTeacherLogin() {
+        setBtnLoading('introTeacherLoginBtn', true);
+        const login = document.getElementById('introTeacherSelect').value;
+        const pass = document.getElementById('introTeacherPassInput').value;
+        try {
+            const res = await fetch('api/auth.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({login, password: pass})
+            });
+            const data = await res.json();
+            if (data.success) {
+                currentUser = data.user;
+                const bRes = await fetch('api/bookings.php');
+                bookings = await bRes.json();
+                completeIntro();
+                updateUI();
+                document.getElementById('introTeacherSelect').value = '';
+                document.getElementById('introTeacherPassInput').value = '';
+                document.getElementById('introAuthErrorLine').style.display = 'none';
+            } else {
+                document.getElementById('introAuthErrorLine').style.display = 'block';
+            }
+        } catch (e) {
+            document.getElementById('introAuthErrorLine').style.display = 'block';
+        } finally {
+            setBtnLoading('introTeacherLoginBtn', false);
+        }
     }
 
     // ===================== INIT =====================
@@ -1247,7 +1484,7 @@
             const meData = await meRes.json();
             if (meData.loggedIn) {
                 currentUser = meData.user;
-                if (currentUser.role === 'admin' || currentUser.role === 'school') {
+                if (currentUser.role === 'admin' || currentUser.role === 'school' || currentUser.role === 'teacher') {
                     document.getElementById('introScreen').style.display = 'none';
                 }
             }
@@ -1283,6 +1520,9 @@
         if (currentUser && currentUser.role === 'admin') {
             renderAdminTable();
         }
+        if (currentUser && currentUser.role === 'teacher') {
+            renderTeacherCalendars();
+        }
     }
 
     // ===================== AUTH =====================
@@ -1293,6 +1533,7 @@
     }
 
     async function doLogin() {
+        setBtnLoading('modalLoginBtn', true);
         const login = document.getElementById('schoolSelect').value;
         const pass = document.getElementById('passInput').value;
         try {
@@ -1309,6 +1550,7 @@
                 toggleAuth();
                 updateUI();
                 if (currentUser.role === 'admin') renderAdminTable();
+                if (currentUser.role === 'teacher') renderTeacherCalendars();
                 document.getElementById('schoolSelect').value = '';
                 document.getElementById('passInput').value = '';
                 document.getElementById('authError').classList.remove('show');
@@ -1317,10 +1559,13 @@
             }
         } catch (e) {
             document.getElementById('authError').classList.add('show');
+        } finally {
+            setBtnLoading('modalLoginBtn', false);
         }
     }
 
     async function doAdminLogin() {
+        setBtnLoading('modalAdminLoginBtn', true);
         const pass = document.getElementById('adminPassInput').value;
         try {
             const res = await fetch('api/auth.php', {
@@ -1343,6 +1588,8 @@
             }
         } catch (e) {
             document.getElementById('adminAuthError').classList.add('show');
+        } finally {
+            setBtnLoading('modalAdminLoginBtn', false);
         }
     }
 
@@ -1355,7 +1602,47 @@
     function showSchoolMode() {
         document.getElementById('authSchool').style.display = '';
         document.getElementById('authAdmin').style.display = 'none';
+        document.getElementById('authTeacher').style.display = 'none';
         document.getElementById('adminAuthError').classList.remove('show');
+        document.getElementById('teacherAuthError').classList.remove('show');
+    }
+
+    function showTeacherMode() {
+        document.getElementById('authSchool').style.display = 'none';
+        document.getElementById('authAdmin').style.display = 'none';
+        document.getElementById('authTeacher').style.display = '';
+        document.getElementById('authError').classList.remove('show');
+        document.getElementById('teacherAuthError').classList.remove('show');
+    }
+
+    async function doTeacherLogin() {
+        setBtnLoading('modalTeacherLoginBtn', true);
+        const login = document.getElementById('teacherSelect').value;
+        const pass = document.getElementById('teacherPassInput').value;
+        try {
+            const res = await fetch('api/auth.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({login, password: pass})
+            });
+            const data = await res.json();
+            if (data.success) {
+                currentUser = data.user;
+                const bRes = await fetch('api/bookings.php');
+                bookings = await bRes.json();
+                toggleAuth();
+                updateUI();
+                document.getElementById('teacherSelect').value = '';
+                document.getElementById('teacherPassInput').value = '';
+                document.getElementById('teacherAuthError').classList.remove('show');
+            } else {
+                document.getElementById('teacherAuthError').classList.add('show');
+            }
+        } catch (e) {
+            document.getElementById('teacherAuthError').classList.add('show');
+        } finally {
+            setBtnLoading('modalTeacherLoginBtn', false);
+        }
     }
 
     async function doLogout() {
@@ -1378,19 +1665,48 @@
         const adminLink = document.getElementById('adminLink');
         const adminSection = document.getElementById('admin');
         const myBookingsSection = document.getElementById('myBookingsSection');
+        const calendarSection = document.getElementById('calendar');
+        const workshopsSection = document.getElementById('workshops');
+        const teachersSection = document.getElementById('teachers');
+        const teacherDashboard = document.getElementById('teacherDashboard');
+        const navLinks = document.querySelectorAll('nav a');
 
         if (currentUser) {
             userName.textContent = currentUser.name;
             authBtn.textContent = 'Выйти';
             authBtn.onclick = doLogout;
-            myBookingsSection.style.display = '';
-            renderMyBookings();
-            if (currentUser.role === 'admin') {
-                adminLink.style.display = '';
-                adminSection.style.display = '';
-            } else {
+
+            if (currentUser.role === 'teacher') {
+                myBookingsSection.style.display = 'none';
                 adminLink.style.display = 'none';
                 adminSection.style.display = 'none';
+                calendarSection.style.display = 'none';
+                workshopsSection.style.display = 'none';
+                teachersSection.style.display = 'none';
+                teacherDashboard.style.display = '';
+                navLinks.forEach(a => { if (a.id !== 'adminLink') a.style.display = 'none'; });
+                renderTeacherCalendars();
+            } else if (currentUser.role === 'admin') {
+                myBookingsSection.style.display = 'none';
+                adminLink.style.display = 'none';
+                adminSection.style.display = '';
+                calendarSection.style.display = 'none';
+                workshopsSection.style.display = 'none';
+                teachersSection.style.display = 'none';
+                teacherDashboard.style.display = 'none';
+                navLinks.forEach(a => a.style.display = 'none');
+                renderAdminTable();
+                loadUsers();
+            } else {
+                myBookingsSection.style.display = '';
+                adminLink.style.display = 'none';
+                adminSection.style.display = 'none';
+                calendarSection.style.display = '';
+                workshopsSection.style.display = '';
+                teachersSection.style.display = '';
+                teacherDashboard.style.display = 'none';
+                navLinks.forEach(a => a.style.display = '');
+                renderMyBookings();
             }
         } else {
             userName.textContent = 'Гость';
@@ -1399,149 +1715,191 @@
             adminLink.style.display = 'none';
             adminSection.style.display = 'none';
             myBookingsSection.style.display = 'none';
+            teacherDashboard.style.display = 'none';
+            calendarSection.style.display = '';
+            workshopsSection.style.display = '';
+            teachersSection.style.display = '';
+            navLinks.forEach(a => a.style.display = '');
         }
         renderCalendar();
     }
 
     // ===================== CALENDAR =====================
-    function showCalendar(type) {
-        selectedBookingType = type;
+    function showBookingTypeSelector() {
+        selectedBookingType = null;
+        selectedOutboundGroup = null;
+        document.getElementById('bookingTypeSelector').style.display = '';
+        document.getElementById('outboundGroupSelector').style.display = 'none';
+        document.getElementById('calendarWrapper').style.display = 'none';
+    }
+
+    function showOutboundGroups() {
+        selectedBookingType = 'outbound';
+        selectedOutboundGroup = null;
         document.getElementById('bookingTypeSelector').style.display = 'none';
+        document.getElementById('outboundGroupSelector').style.display = '';
+        document.getElementById('calendarWrapper').style.display = 'none';
+    }
+
+    function showCalendar(group) {
+        if (group === 'studio') {
+            selectedBookingType = 'studio';
+            selectedOutboundGroup = null;
+        } else if (group === 'outbound-it') {
+            selectedBookingType = 'outbound';
+            selectedOutboundGroup = 'it';
+        } else if (group === 'outbound-art') {
+            selectedBookingType = 'outbound';
+            selectedOutboundGroup = 'art';
+        }
+        document.getElementById('bookingTypeSelector').style.display = 'none';
+        document.getElementById('outboundGroupSelector').style.display = 'none';
         document.getElementById('calendarWrapper').style.display = '';
+
+        const info = document.getElementById('calendarInfo');
+        const legend = document.getElementById('calendarLegend');
+        if (group === 'studio') {
+            info.style.borderLeftColor = 'var(--studio2)';
+            info.innerHTML = `
+                <strong>Июнь 2026</strong><br>
+                📅 <strong>4–12 июня</strong> (рабочие дни): запись на время <strong>15:30–17:00</strong><br>
+                📅 <strong>15–19 июня</strong> (рабочая неделя): запись на слоты с <strong>10:00 до 16:00</strong> (10:00–11:30, 12:00–13:30, 14:00–15:30)
+            `;
+            legend.innerHTML = `
+                <div class="legend-item"><div class="legend-box" style="background: var(--studio);"></div> В студии</div>
+                <div class="legend-item"><div class="legend-box" style="background: #d4edda;"></div> Свободно</div>
+                <div class="legend-item"><div class="legend-box" style="background: #f8d7da;"></div> Занято</div>
+            `;
+        } else if (group === 'outbound-it') {
+            info.style.borderLeftColor = 'var(--outbound)';
+            info.innerHTML = `
+                <strong>Июнь 2026</strong><br>
+                📅 <strong>15–19 июня</strong> (рабочая неделя): запись на слоты <strong>10:00–11:30, 12:00–13:30, 14:00–15:30</strong>
+            `;
+            legend.innerHTML = `
+                <div class="legend-item"><div class="legend-box" style="background: var(--outbound);"></div> IT-Мастерклассы</div>
+                <div class="legend-item"><div class="legend-box" style="background: #ffe0b2;"></div> Свободно</div>
+                <div class="legend-item"><div class="legend-box" style="background: #f8d7da;"></div> Занято</div>
+            `;
+        } else if (group === 'outbound-art') {
+            info.style.borderLeftColor = 'var(--outbound)';
+            info.innerHTML = `
+                <strong>Июнь 2026</strong><br>
+                📅 <strong>4–19 июня</strong> (все рабочие дни): запись на слоты <strong>10:00–11:30, 12:00–13:30, 14:00–15:30</strong>
+            `;
+            legend.innerHTML = `
+                <div class="legend-item"><div class="legend-box" style="background: var(--outbound);"></div> Арт-тренинги</div>
+                <div class="legend-item"><div class="legend-box" style="background: #ffe0b2;"></div> Свободно</div>
+                <div class="legend-item"><div class="legend-box" style="background: #f8d7da;"></div> Занято</div>
+            `;
+        }
+
         renderCalendar();
     }
 
     function hideCalendar() {
-        selectedBookingType = null;
-        document.getElementById('bookingTypeSelector').style.display = '';
-        document.getElementById('calendarWrapper').style.display = 'none';
+        if (selectedBookingType === 'outbound') {
+            selectedOutboundGroup = null;
+            document.getElementById('outboundGroupSelector').style.display = '';
+            document.getElementById('calendarWrapper').style.display = 'none';
+        } else {
+            selectedBookingType = null;
+            selectedOutboundGroup = null;
+            document.getElementById('bookingTypeSelector').style.display = '';
+            document.getElementById('calendarWrapper').style.display = 'none';
+        }
     }
 
     function renderCalendar() {
         const grid = document.getElementById('calendarGrid');
         grid.innerHTML = '';
+        grid.className = 'calendar-days-grid';
 
-        // Header
-        DAY_NAMES.forEach(d => {
-            const el = document.createElement('div');
-            el.className = 'calendar-header';
-            el.textContent = d;
-            grid.appendChild(el);
-        });
-
-        // June 2026 starts on Monday (1st is Monday)
-        const year = 2026, month = 5; // 0-indexed, so June = 5
-        const firstDay = new Date(year, month, 1).getDay(); // 1 = Monday
-        const daysInMonth = new Date(year, month + 1, 0).getDate(); // 30
-
-        // Empty cells before 1st
-        const startOffset = firstDay === 0 ? 6 : firstDay - 1;
-        for (let i = 0; i < startOffset; i++) {
-            grid.appendChild(document.createElement('div'));
+        // Determine days to show based on selected type
+        let days = [];
+        if (selectedBookingType === 'studio') {
+            days = [...PHASE1_DATES, ...PHASE2_DATES];
+        } else if (selectedOutboundGroup === 'it') {
+            days = [...PHASE2_DATES];
+        } else if (selectedOutboundGroup === 'art') {
+            days = [...PHASE1_DATES, ...PHASE2_DATES];
+        } else {
+            days = [...PHASE1_DATES, ...PHASE2_DATES];
         }
 
-        for (let day = 1; day <= daysInMonth; day++) {
-            const cell = document.createElement('div');
-            cell.className = 'calendar-day';
-
+        days.forEach(day => {
             const isPhase1 = PHASE1_DATES.includes(day);
-            const isPhase2 = PHASE2_DATES.includes(day);
-            const isActive = isPhase1 || isPhase2;
-
-            const dayNum = document.createElement('div');
-            dayNum.className = 'day-number';
-            dayNum.textContent = day;
-            cell.appendChild(dayNum);
-
-            if (!isActive) {
-                cell.classList.add('disabled');
-            } else {
-                cell.onclick = () => openBookingModal(day, isPhase1);
-
-                // Check status
-                const dayBookings = getBookingsForDay(day);
-                const status = document.createElement('div');
-                status.className = 'day-status';
-
-                if (isPhase1) {
-                    const slot = PHASE1_SLOT[0];
-                    const hasFree = hasFreeSlots(day, slot);
-                    if (hasFree) {
-                        status.textContent = '15:30';
-                        status.classList.add('status-open');
-                    } else {
-                        status.textContent = 'Занято';
-                        status.classList.add('status-full');
-                    }
-                } else {
-                    const freeSlots = PHASE2_SLOTS.filter(s => hasFreeSlots(day, s)).length;
-                    if (freeSlots > 0) {
-                        status.textContent = freeSlots + ' слота';
-                        status.classList.add('status-open');
-                    } else {
-                        status.textContent = 'Занято';
-                        status.classList.add('status-full');
-                    }
-                }
-                cell.appendChild(status);
-
-                // If current user has bookings this day
-                if (currentUser && dayBookings.some(b => b.school === currentUser.login)) {
-                    cell.style.borderColor = 'var(--accent)';
-                }
+            let slots = [];
+            if (selectedBookingType === 'studio') {
+                slots = isPhase1 ? PHASE1_SLOT : PHASE2_SLOTS;
+            } else if (selectedOutboundGroup === 'it') {
+                slots = isPhase1 ? PHASE1_SLOT : PHASE2_SLOTS;
+            } else if (selectedOutboundGroup === 'art') {
+                slots = PHASE2_SLOTS;
             }
 
-            grid.appendChild(cell);
-        }
-    }
+            const card = document.createElement('div');
+            card.className = 'day-card';
 
-    function getBookingsForDay(day) {
-        return bookings.filter(b => b.day === day);
-    }
+            const date = new Date(2026, 5, day);
+            const dayName = DAY_NAMES[date.getDay() === 0 ? 6 : date.getDay() - 1];
 
-    function hasFreeSlots(day, slot) {
-        const daySlotBookings = bookings.filter(b => b.day === day && b.time === slot);
-        // For studio workshops, check each individually
-        const studioWorkshops = ALL_WORKSHOPS.filter(w => w.type === 'studio');
-        for (const ws of studioWorkshops) {
-            const wsBookings = daySlotBookings.filter(b => b.workshopId === ws.id);
-            if (wsBookings.length < ws.maxSlots) return true;
-        }
-        // Outbound always has slots
-        const outboundWorkshops = ALL_WORKSHOPS.filter(w => w.type === 'outbound');
-        for (const ws of outboundWorkshops) {
-            const wsBookings = daySlotBookings.filter(b => b.workshopId === ws.id);
-            if (wsBookings.length < ws.maxSlots) return true;
-        }
-        return false;
-    }
+            const header = document.createElement('div');
+            header.className = 'day-card-header';
+            header.innerHTML = `
+                <div class="day-name">${dayName}</div>
+                <div class="day-number">${day} июня</div>
+            `;
+            card.appendChild(header);
 
-    function getWorkshopStatus(day, slot, workshop) {
-        const count = bookings.filter(b => b.day === day && b.time === slot && b.workshopId === workshop.id).length;
-        if (workshop.type === 'studio') {
-            return count >= workshop.maxSlots ? 'full' : 'open';
-        }
-        return 'open';
-    }
+            const slotsContainer = document.createElement('div');
+            slotsContainer.className = 'time-slots';
 
-    function getSpotsLeft(day, slot, workshop) {
-        const count = bookings.filter(b => b.day === day && b.time === slot && b.workshopId === workshop.id).length;
-        if (workshop.type === 'studio') {
-            return Math.max(0, workshop.maxSlots - count);
-        }
-        return '∞';
-    }
+            slots.forEach(slot => {
+                const slotEl = document.createElement('div');
+                slotEl.className = 'time-slot';
 
-    function isSchoolBooked(day, slot, school) {
-        return bookings.some(b => b.day === day && b.time === slot && b.school === school);
-    }
+                const myGlobalBooking = currentUser ? bookings.find(b => b.day === day && b.time === slot && b.school === currentUser.login) : null;
 
-    function isSchoolBookedWorkshop(day, slot, school, workshopId) {
-        return bookings.some(b => b.day === day && b.time === slot && b.school === school && b.workshopId === workshopId);
+                const slotBookings = bookings.filter(b => {
+                    if (b.day !== day || b.time !== slot || b.type !== selectedBookingType) return false;
+                    if (selectedBookingType === 'outbound' && selectedOutboundGroup) {
+                        const ws = ALL_WORKSHOPS.find(w => w.id === b.workshopId);
+                        return ws && ws.group === selectedOutboundGroup;
+                    }
+                    return true;
+                });
+                const myBooking = currentUser ? slotBookings.find(b => b.school === currentUser.login) : null;
+
+                if (myBooking) {
+                    slotEl.classList.add('my-booking');
+                    slotEl.textContent = `✓ ${slot} — ${myBooking.workshopName}`;
+                    slotEl.onclick = () => openBookingModal(day, slot);
+                } else if (myGlobalBooking) {
+                    slotEl.classList.add('occupied');
+                    slotEl.textContent = `${slot} — уже есть запись`;
+                } else if (slotBookings.length > 0) {
+                    slotEl.classList.add('occupied');
+                    slotEl.textContent = `${slot} — ${slotBookings[0].schoolName}`;
+                } else {
+                    slotEl.classList.add('free');
+                    if (selectedBookingType === 'outbound') {
+                        slotEl.classList.add('outbound');
+                    }
+                    slotEl.textContent = slot;
+                    slotEl.onclick = () => openBookingModal(day, slot);
+                }
+
+                slotsContainer.appendChild(slotEl);
+            });
+
+            card.appendChild(slotsContainer);
+            grid.appendChild(card);
+        });
     }
 
     // ===================== BOOKING MODAL =====================
-    function openBookingModal(day, isPhase1) {
+    function openBookingModal(day, slot) {
         if (!currentUser) {
             toggleAuth();
             return;
@@ -1551,88 +1909,95 @@
             return;
         }
 
-        const slots = isPhase1 ? PHASE1_SLOT : PHASE2_SLOTS;
+        bookingModalDay = day;
+        bookingModalSlot = slot;
+
         const title = document.getElementById('bookingModalTitle');
-        title.textContent = `Запись на ${day} июня 2026`;
+        title.textContent = `Запись на ${day} июня — ${slot}`;
 
         const container = document.getElementById('slotsContainer');
         container.innerHTML = '';
 
-        slots.forEach(slot => {
-            const slotDiv = document.createElement('div');
-            slotDiv.className = 'slot-item';
-
-            const timeDiv = document.createElement('div');
-            timeDiv.className = 'slot-time';
-            timeDiv.textContent = slot;
-            slotDiv.appendChild(timeDiv);
-
-            const alreadyBooked = isSchoolBooked(day, slot, currentUser.login);
-
-            const workshopsDiv = document.createElement('div');
-            workshopsDiv.className = 'slot-workshops';
-
-            ALL_WORKSHOPS.filter(ws => ws.type === selectedBookingType).forEach(ws => {
-                const card = document.createElement('div');
-                card.className = `workshop-card ${ws.type}`;
-
-                const status = getWorkshopStatus(day, slot, ws);
-                const spots = getSpotsLeft(day, slot, ws);
-                const isMyBooking = isSchoolBookedWorkshop(day, slot, currentUser.login, ws.id);
-
-                if (status === 'full' && !isMyBooking) {
-                    card.classList.add('full');
-                }
-                if (isMyBooking) {
-                    card.classList.add('selected');
-                }
-
-                const typeBadge = document.createElement('span');
-                typeBadge.className = `workshop-type type-${ws.type}`;
-                typeBadge.textContent = ws.format;
-
-                const titleDiv = document.createElement('div');
-                titleDiv.className = 'workshop-title';
-                titleDiv.textContent = ws.title;
-
-                const spotsDiv = document.createElement('div');
-                spotsDiv.className = 'workshop-spots';
-                if (isMyBooking) {
-                    spotsDiv.textContent = '✓ Вы записаны';
-                    spotsDiv.style.color = 'var(--accent)';
-                    spotsDiv.style.fontWeight = '600';
-                } else if (status === 'full') {
-                    spotsDiv.textContent = 'Мест нет';
-                    spotsDiv.classList.add('full');
-                } else {
-                    spotsDiv.textContent = ws.type === 'studio' ? `Осталось мест: ${spots}` : 'Доступно';
-                }
-
-                card.appendChild(typeBadge);
-                card.appendChild(titleDiv);
-                card.appendChild(spotsDiv);
-
-                if (!isMyBooking && status !== 'full' && !alreadyBooked) {
-                    card.onclick = () => bookWorkshop(day, slot, ws.id);
-                } else if (isMyBooking) {
-                    card.onclick = () => {
-                        cancelBooking(day, slot, ws.id);
-                        openBookingModal(day, PHASE1_DATES.includes(day));
-                    };
-                }
-
-                workshopsDiv.appendChild(card);
-            });
-
-            slotDiv.appendChild(workshopsDiv);
-            container.appendChild(slotDiv);
+        const myCurrentBooking = bookings.find(b => {
+            if (b.day !== day || b.time !== slot || b.school !== currentUser.login || b.type !== selectedBookingType) return false;
+            if (selectedBookingType === 'outbound' && selectedOutboundGroup) {
+                const ws = ALL_WORKSHOPS.find(w => w.id === b.workshopId);
+                return ws && ws.group === selectedOutboundGroup;
+            }
+            return true;
         });
 
+        const workshopsDiv = document.createElement('div');
+        workshopsDiv.className = 'slot-workshops';
+
+        ALL_WORKSHOPS.filter(ws => {
+            if (ws.type !== selectedBookingType) return false;
+            if (selectedBookingType === 'outbound' && selectedOutboundGroup) {
+                return ws.group === selectedOutboundGroup;
+            }
+            return true;
+        }).forEach(ws => {
+            const card = document.createElement('div');
+            card.className = `workshop-card ${ws.type}`;
+            card.dataset.id = ws.id;
+
+            const isMyCurrent = myCurrentBooking && myCurrentBooking.workshopId === ws.id;
+
+            if (isMyCurrent) {
+                card.classList.add('selected');
+            }
+
+            const typeBadge = document.createElement('span');
+            typeBadge.className = `workshop-type type-${ws.type}`;
+            typeBadge.textContent = ws.format;
+
+            const titleDiv = document.createElement('div');
+            titleDiv.className = 'workshop-title';
+            titleDiv.textContent = ws.title;
+
+            const spotsDiv = document.createElement('div');
+            spotsDiv.className = 'workshop-spots';
+            if (isMyCurrent) {
+                spotsDiv.textContent = '✓ Вы записаны (кликните для отмены)';
+                spotsDiv.style.color = 'var(--accent)';
+                spotsDiv.style.fontWeight = '600';
+            } else {
+                spotsDiv.textContent = 'Доступно';
+            }
+
+            card.appendChild(typeBadge);
+            card.appendChild(titleDiv);
+            card.appendChild(spotsDiv);
+
+            card.onclick = () => {
+                if (isMyCurrent) {
+                    cancelBooking(day, slot, ws.id);
+                    closeBookingModal();
+                } else {
+                    if (myCurrentBooking) {
+                        changeBooking(day, slot, myCurrentBooking.workshopId, ws.id);
+                    } else {
+                        bookWorkshop(day, slot, ws.id);
+                    }
+                }
+            };
+
+            workshopsDiv.appendChild(card);
+        });
+
+        container.appendChild(workshopsDiv);
         document.getElementById('bookingModal').classList.add('active');
+    }
+
+    async function changeBooking(day, slot, oldWorkshopId, newWorkshopId) {
+        await cancelBooking(day, slot, oldWorkshopId);
+        await bookWorkshop(day, slot, newWorkshopId);
     }
 
     function closeBookingModal() {
         document.getElementById('bookingModal').classList.remove('active');
+        bookingModalDay = null;
+        bookingModalSlot = null;
     }
 
     async function bookWorkshop(day, slot, workshopId) {
@@ -1651,7 +2016,7 @@
             const data = await res.json();
             if (data.success) {
                 bookings.push(data.booking);
-                openBookingModal(day, PHASE1_DATES.includes(day));
+                closeBookingModal();
                 renderCalendar();
                 renderMyBookings();
                 if (currentUser.role === 'admin') renderAdminTable();
@@ -1735,6 +2100,7 @@
                     <span>📍 ${ws.format}</span>
                     <span>⏱ ${ws.duration}</span>
                     ${ws.type === 'studio' ? '<span>👥 до 12 чел.</span>' : ''}
+                    <span>👤 ${ws.teacher}</span>
                 </div>
                 <p class="workshop-desc">${ws.fullDesc}</p>
                 <div class="workshop-result">
@@ -1754,15 +2120,30 @@
         grid.innerHTML = '';
 
         const teachers = [
-            { initials: 'ИИ', name: 'Иван Иванов', role: 'Преподаватель по программированию', bio: 'Информация о преподавателе будет добавлена позже.' },
-            { initials: 'ПП', name: 'Пётр Петров', role: 'Преподаватель по геймдеву', bio: 'Информация о преподавателе будет добавлена позже.' }
+            {
+                initials: 'ЯН',
+                name: 'Яковлев Никита Андреевич',
+                role: 'Старший преподаватель IT-направления',
+                bio: 'Преподаватель курсов информационных технологий: Создание игр в Python, Пилотирование дронов и современное авиамоделирование, Компьютерная грамотность, Программирование в Майнкрафт, Создание игр в Scratch, Гарвардский курс по основам программирования CS50, Создание игр в Unreal Engine 4, Визуальное программирование в Scratch, Нейросети.',
+                photo: 'Teachers/nikita.jfif'
+            },
+            {
+                initials: 'СЛ',
+                name: 'Семенюк Лариса Валерьевна',
+                role: 'Педагог-психолог, детский психолог, системный семейный психолог, арт-терапевт, сказкотерапевт',
+                bio: 'Руководитель Детского Центра «Чудо-Остров» в г. Иркутск. Опыт работы с детьми — более 20-ти лет, в качестве психолога — более 10-ти лет. Опыт ведения подросткового психологического клуба и коммуникативной группы для детей 7–10 лет. Принимала участие как один из ведущих психологов в Иркутском кинопроекте для детей. Консультирование семей по детско-родительским отношениям и индивидуальная психологическая работа с детьми, подростками и юношеским возрастом.',
+                photo: 'Teachers/larisa.jpg'
+            }
         ];
 
         teachers.forEach(t => {
             const card = document.createElement('div');
             card.className = 'teacher-card';
             card.innerHTML = `
-                <div class="teacher-photo">${t.initials}</div>
+                <div class="teacher-photo">
+                    <img src="${t.photo}" alt="${t.name}" onerror="this.remove()">
+                    ${t.initials}
+                </div>
                 <h3>${t.name}</h3>
                 <div class="teacher-role">${t.role}</div>
                 <p class="teacher-bio">${t.bio}</p>
@@ -1812,8 +2193,6 @@
             if (data.success) {
                 bookings = bookings.filter(b => b.id !== id);
                 renderAdminTable();
-                renderCalendar();
-                renderMyBookings();
             } else {
                 alert(data.error || 'Ошибка отмены');
             }
@@ -1855,7 +2234,6 @@
                         if (result.success) {
                             bookings = data.bookings;
                             renderAdminTable();
-                            renderCalendar();
                             alert('Данные успешно загружены!');
                         } else {
                             alert(result.error || 'Ошибка импорта');
@@ -1879,14 +2257,92 @@
             if (data.success) {
                 bookings = [];
                 renderAdminTable();
-                renderCalendar();
-                renderMyBookings();
                 alert('Все записи удалены');
             }
         }
     }
 
+    async function loadUsers() {
+        try {
+            const res = await fetch('api/users.php');
+            const users = await res.json();
+            const select = document.getElementById('adminUserSelect');
+            select.innerHTML = '<option value="" disabled selected>Выберите пользователя</option>';
+            users.forEach(u => {
+                const option = document.createElement('option');
+                option.value = u.login;
+                option.textContent = `${u.name} (${u.login})`;
+                select.appendChild(option);
+            });
+        } catch (e) {
+            console.error('Не удалось загрузить пользователей', e);
+        }
+    }
+
+    async function changeUserPassword() {
+        const login = document.getElementById('adminUserSelect').value;
+        const password = document.getElementById('adminNewPassword').value;
+        const errorEl = document.getElementById('passwordChangeError');
+        const successEl = document.getElementById('passwordChangeSuccess');
+
+        errorEl.style.display = 'none';
+        successEl.style.display = 'none';
+
+        if (!login || !password) {
+            errorEl.textContent = 'Выберите пользователя и введите новый пароль';
+            errorEl.style.display = 'block';
+            return;
+        }
+
+        try {
+            const res = await fetch('api/users.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({login, password})
+            });
+            const data = await res.json();
+            if (data.success) {
+                successEl.textContent = 'Пароль успешно изменён';
+                successEl.style.display = 'block';
+                document.getElementById('adminNewPassword').value = '';
+                document.getElementById('adminUserSelect').value = '';
+            } else {
+                errorEl.textContent = data.error || 'Ошибка смены пароля';
+                errorEl.style.display = 'block';
+            }
+        } catch (e) {
+            errorEl.textContent = 'Ошибка сети при смене пароля';
+            errorEl.style.display = 'block';
+        }
+    }
+
     // ===================== UTILS =====================
+    function setBtnLoading(id, loading) {
+        const btn = document.getElementById(id);
+        if (!btn) return;
+        if (loading) {
+            btn.dataset.origText = btn.textContent;
+            btn.textContent = 'Проверка...';
+            btn.disabled = true;
+        } else {
+            btn.textContent = btn.dataset.origText || 'Войти';
+            btn.disabled = false;
+        }
+    }
+
+    function togglePasswordVisibility(inputId, btn) {
+        const input = document.getElementById(inputId);
+        if (input.type === 'password') {
+            input.type = 'text';
+            btn.textContent = '🙈';
+            btn.title = 'Скрыть пароль';
+        } else {
+            input.type = 'password';
+            btn.textContent = '👁';
+            btn.title = 'Показать пароль';
+        }
+    }
+
     function scrollToSection(id) {
         const el = document.getElementById(id);
         if (el) el.scrollIntoView({ behavior: 'smooth' });
@@ -1910,6 +2366,98 @@
     document.getElementById('introPassInput').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') doIntroLogin();
     });
+    document.getElementById('introTeacherPassInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') doIntroTeacherLogin();
+    });
+    document.getElementById('teacherPassInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') doTeacherLogin();
+    });
+    document.getElementById('adminNewPassword').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') changeUserPassword();
+    });
+
+    // ===================== TEACHER CALENDARS =====================
+    function renderTeacherCalendars() {
+        if (!currentUser || currentUser.role !== 'teacher') return;
+        renderTeacherCalendar('teacherCalendarStudio', 'studio', null);
+        renderTeacherCalendar('teacherCalendarOutboundIt', 'outbound', 'it');
+        renderTeacherCalendar('teacherCalendarOutboundArt', 'outbound', 'art');
+    }
+
+    function renderTeacherCalendar(containerId, type, group) {
+        const grid = document.getElementById(containerId);
+        if (!grid) return;
+        grid.innerHTML = '';
+
+        let days = [];
+        if (type === 'studio') {
+            days = [...PHASE1_DATES, ...PHASE2_DATES];
+        } else if (group === 'it') {
+            days = [...PHASE2_DATES];
+        } else if (group === 'art') {
+            days = [...PHASE1_DATES, ...PHASE2_DATES];
+        }
+
+        days.forEach(day => {
+            const isPhase1 = PHASE1_DATES.includes(day);
+            let slots = [];
+            if (type === 'studio') {
+                slots = isPhase1 ? PHASE1_SLOT : PHASE2_SLOTS;
+            } else if (group === 'it') {
+                slots = isPhase1 ? PHASE1_SLOT : PHASE2_SLOTS;
+            } else if (group === 'art') {
+                slots = PHASE2_SLOTS;
+            }
+
+            const card = document.createElement('div');
+            card.className = 'day-card';
+
+            const date = new Date(2026, 5, day);
+            const dayName = DAY_NAMES[date.getDay() === 0 ? 6 : date.getDay() - 1];
+
+            const header = document.createElement('div');
+            header.className = 'day-card-header';
+            header.innerHTML = `
+                <div class="day-name">${dayName}</div>
+                <div class="day-number">${day} июня</div>
+            `;
+            card.appendChild(header);
+
+            const slotsContainer = document.createElement('div');
+            slotsContainer.className = 'time-slots';
+
+            slots.forEach(slot => {
+                const slotEl = document.createElement('div');
+                slotEl.className = 'time-slot';
+
+                const slotBookings = bookings.filter(b => {
+                    if (b.day !== day || b.time !== slot || b.type !== type) return false;
+                    if (type === 'outbound' && group) {
+                        const ws = ALL_WORKSHOPS.find(w => w.id === b.workshopId);
+                        return ws && ws.group === group;
+                    }
+                    return true;
+                });
+
+                if (slotBookings.length > 0) {
+                    slotEl.classList.add('occupied');
+                    slotEl.innerHTML = `<strong>${slot}</strong><br>` +
+                        slotBookings.map(b => `${b.schoolName} — ${b.workshopName}`).join('<br>');
+                } else {
+                    slotEl.classList.add('free');
+                    if (type === 'outbound') {
+                        slotEl.classList.add('outbound');
+                    }
+                    slotEl.textContent = `${slot} — свободно`;
+                }
+
+                slotsContainer.appendChild(slotEl);
+            });
+
+            card.appendChild(slotsContainer);
+            grid.appendChild(card);
+        });
+    }
 
     // Start
     init();

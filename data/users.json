@@ -1,22 +1,134 @@
 [
-    {"login": "admin", "password": "admin123", "name": "Администратор", "role": "admin"},
-    {"login": "школа1", "password": "school1", "name": "Школа 1", "role": "school"},
-    {"login": "школа2", "password": "school2", "name": "Школа 2", "role": "school"},
-    {"login": "школа3", "password": "school3", "name": "Школа 3", "role": "school"},
-    {"login": "школа4", "password": "school4", "name": "Школа 4", "role": "school"},
-    {"login": "школа5", "password": "school5", "name": "Школа 5", "role": "school"},
-    {"login": "школа6", "password": "school6", "name": "Школа 6", "role": "school"},
-    {"login": "школа7", "password": "school7", "name": "Школа 7", "role": "school"},
-    {"login": "школа8", "password": "school8", "name": "Школа 8", "role": "school"},
-    {"login": "школа9", "password": "school9", "name": "Школа 9", "role": "school"},
-    {"login": "школа10", "password": "school10", "name": "Школа 10", "role": "school"},
-    {"login": "школа11", "password": "school11", "name": "Школа 11", "role": "school"},
-    {"login": "школа12", "password": "school12", "name": "Школа 12", "role": "school"},
-    {"login": "школа13", "password": "school13", "name": "Школа 13", "role": "school"},
-    {"login": "школа14", "password": "school14", "name": "Школа 14", "role": "school"},
-    {"login": "школа15", "password": "school15", "name": "Школа 15", "role": "school"},
-    {"login": "школа16", "password": "school16", "name": "Школа 16", "role": "school"},
-    {"login": "школа17", "password": "school17", "name": "Школа 17", "role": "school"},
-    {"login": "школа18", "password": "school18", "name": "Школа 18", "role": "school"},
-    {"login": "школа19", "password": "school19", "name": "Школа 19", "role": "school"}
+    {
+        "login": "admin",
+        "name": "Администратор",
+        "role": "admin",
+        "password_hash": "$2y$12$4D3qYQH.vPuEm7iMzSZ\/nuUhGlas939j1HCRIaAFZ2y9ibNHVw9fi"
+    },
+    {
+        "login": "yakovlev",
+        "name": "Яковлев Никита Андреевич",
+        "role": "teacher",
+        "password_hash": "$2y$12$NFZNweFP0rOW\/sOjoqPYsexa1s51BrZWS.NLMVyRMIeQFosw\/TMka"
+    },
+    {
+        "login": "semenyuk",
+        "name": "Семенюк Лариса Валерьевна",
+        "role": "teacher",
+        "password_hash": "$2y$12$FPMwJVC.kYYsVfABQLL0BO0LcSENbTH8q4b8OfsX.dWgGf6A04aMm"
+    },
+    {
+        "login": "школа1",
+        "name": "Школа 1",
+        "role": "school",
+        "password_hash": "$2y$12$URgyDbRy3XOBrW9k40BhEeV\/krM0oosejVujchVjSt.\/Nj.0CkT1q"
+    },
+    {
+        "login": "школа2",
+        "name": "Школа 2",
+        "role": "school",
+        "password_hash": "$2y$12$4esL.6KoRE8VZUAbexVup.K.11ky\/7.3dTWDnnzNONIeP1WVRFWj2"
+    },
+    {
+        "login": "школа3",
+        "name": "Школа 3",
+        "role": "school",
+        "password_hash": "$2y$12$u7oJcFhBkT\/wSRXYsUg0vehv\/MvnUMHqg753JZ1pb7FB4VjeVYG0S"
+    },
+    {
+        "login": "школа4",
+        "name": "Школа 4",
+        "role": "school",
+        "password_hash": "$2y$12$alRbSzYPc4AqESkPC74RLe6q.Rl0bNhdRzwlAaHTz14QcYdeV2R16"
+    },
+    {
+        "login": "школа5",
+        "name": "Школа 5",
+        "role": "school",
+        "password_hash": "$2y$12$fscwIMNrHcBIOA4sUlvKnuqU7rcYGVXxxMrwL\/rPcHUfNZKmMA34m"
+    },
+    {
+        "login": "школа6",
+        "name": "Школа 6",
+        "role": "school",
+        "password_hash": "$2y$12$eQsTJWFYFEWumlaq4fV22.\/i3Hwgy4ZJWhjSkVf99\/61NWgUQIO3C"
+    },
+    {
+        "login": "школа7",
+        "name": "Школа 7",
+        "role": "school",
+        "password_hash": "$2y$12$j\/w0ybqFf1qGPE81FyjxFelAFXk596qnvaY2PKBWXwr2RDqFEqwxu"
+    },
+    {
+        "login": "школа8",
+        "name": "Школа 8",
+        "role": "school",
+        "password_hash": "$2y$12$2goI0qqCJxY2LIaVpP5qE.gDp8raGEAANcPoCJt8JrAxyIdtFaMDa"
+    },
+    {
+        "login": "школа9",
+        "name": "Школа 9",
+        "role": "school",
+        "password_hash": "$2y$12$rLbkPChClvissUjBBLgrs.d9dX6zMe8285l355TRWDHTs1zq8GBBu"
+    },
+    {
+        "login": "школа10",
+        "name": "Школа 10",
+        "role": "school",
+        "password_hash": "$2y$12$YwgHHzbZG11OLWDwtMCzuelT4vTXewu47cOWyY4E123P\/Fl0TK9qm"
+    },
+    {
+        "login": "школа11",
+        "name": "Школа 11",
+        "role": "school",
+        "password_hash": "$2y$12$PYaG9qQA02dJBC2BrZ7uTO6p8gIbb5K2qINPVk.Xn\/7bjWUazjg7u"
+    },
+    {
+        "login": "школа12",
+        "name": "Школа 12",
+        "role": "school",
+        "password_hash": "$2y$12$lEgJnnGAPXndlPHKbd4TEuM65bJzpoKQuXTaP0PQUMECxOhJUjBJ."
+    },
+    {
+        "login": "школа13",
+        "name": "Школа 13",
+        "role": "school",
+        "password_hash": "$2y$12$VVeLJplVrBU3QBOl7DmanOw4R7aLhcosYdk8HkasaGadXb1vwxdKW"
+    },
+    {
+        "login": "школа14",
+        "name": "Школа 14",
+        "role": "school",
+        "password_hash": "$2y$12$vVF3ObnQFUBfmaQFS3xj4egx7rYyANQdIq.P38715C6QFNADrHfz."
+    },
+    {
+        "login": "школа15",
+        "name": "Школа 15",
+        "role": "school",
+        "password_hash": "$2y$12$uuk.f9XuPJQpmh.OtLsXPuau9vAXlVgTDop0aOJ1o\/dkq6gmwixUC"
+    },
+    {
+        "login": "школа16",
+        "name": "Школа 16",
+        "role": "school",
+        "password_hash": "$2y$12$9K6aWXISw9KVdGGpLWHy2eYzKO9KW7EdHE9yPbQh8ZdJMjHk5FdXq"
+    },
+    {
+        "login": "школа17",
+        "name": "Школа 17",
+        "role": "school",
+        "password_hash": "$2y$12$Msy3E5XRZe.yg3pbgExXeunWi.LkKlqOFikhNL6gH\/2Wx53ebcPGK"
+    },
+    {
+        "login": "школа18",
+        "name": "Школа 18",
+        "role": "school",
+        "password_hash": "$2y$12$ZFbjQ.jOOGzQVlF3bHEpKOHIEtfpcKLxmjipWLOdQROTbgufQStIO"
+    },
+    {
+        "login": "школа19",
+        "name": "Школа 19",
+        "role": "school",
+        "password_hash": "$2y$12$Hju7LukO.qAavSAblx6lFev53GKrGTluaOJly3kr1nSwve0qePdoW"
+    }
 ]

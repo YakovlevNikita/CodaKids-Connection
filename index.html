@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CodaKids — Запись на мастерклассы</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --primary: #2d2d2d;
@@ -489,8 +490,6 @@
             border-top: 1px solid var(--border);
             margin-top: 2rem;
         }
-
-        @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap');
 
         /* Intro Screen (Marker style) */
         .intro-screen {
@@ -1133,7 +1132,7 @@
             <div class="booking-type-card outbound" onclick="showOutboundGroups()">
                 <h3>Выездные мастерклассы</h3>
                 <p>Мы приедем к вам заранее и всё настроим. С вас только помещение и оборудование (компьютеры с доступом в интернет).</p>
-                <p style="margin-top:0.75rem;font-weight:600;color:var(--outbound);">💰 Цена: 1 000 ₽ с человека</p>
+                <p style="margin-top:0.75rem;font-weight:600;color:var(--outbound);">💰 Цена: 800 ₽ с человека</p>
             </div>
         </div>
 
@@ -1144,13 +1143,13 @@
                     <h3>IT-Мастерклассы</h3>
                     <p>создание уникальных персонажей и игр с использованием ПК</p>
                     <p style="margin-top:0.5rem;font-weight:600;">Преподаватель: Яковлев Н.А.</p>
-                    <p style="margin-top:0.75rem;font-weight:600;color:var(--outbound);">💰 Цена: 1 000 ₽ с человека</p>
+                    <p style="margin-top:0.75rem;font-weight:600;color:var(--outbound);">💰 Цена: 800 ₽ с человека</p>
                 </div>
                 <div class="booking-type-card outbound" onclick="showCalendar('outbound-art')">
                     <h3>Арт-тренинги</h3>
                     <p>поговорим о гаджетах или психотипах в увлекательной форме</p>
                     <p style="margin-top:0.5rem;font-weight:600;">Преподаватель: Семенюк Л.В.</p>
-                    <p style="margin-top:0.75rem;font-weight:600;color:var(--outbound);">💰 Цена: 1 000 ₽ с человека</p>
+                    <p style="margin-top:0.75rem;font-weight:600;color:var(--outbound);">💰 Цена: 800 ₽ с человека</p>
                 </div>
             </div>
         </div>
@@ -1218,7 +1217,7 @@
     let bookingModalSlot = null;
     let selectedWorkshopId = null;
     let workshopsData = null;
-    let PHASE1_DATES, PHASE2_DATES, PHASE1_SLOT, PHASE2_SLOTS, ALL_WORKSHOPS;
+    let PHASE1_DATES, PHASE2_DATES, PHASE1_SLOT, PHASE2_SLOTS, ALL_WORKSHOPS, OUTBOUND_ART_DATES;
 
     function setWorkshopsData(data) {
         workshopsData = data;
@@ -1227,6 +1226,7 @@
         PHASE2_DATES = data.schedule.phase2Dates;
         PHASE1_SLOT = data.schedule.phase1Slot;
         PHASE2_SLOTS = data.schedule.phase2Slots;
+        OUTBOUND_ART_DATES = data.schedule.outboundArtDates || [...PHASE1_DATES, ...PHASE2_DATES];
     }
 
     // ===================== CODE TYPING INTRO =====================
@@ -1269,7 +1269,13 @@
     let codeTypingPaused = false;
 
     function escapeHtml(str) {
-        return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        if (str == null) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
     }
 
     function highlightEditorLine(text) {
@@ -1293,6 +1299,10 @@
         }
 
         function typeNextChar() {
+            const intro = document.getElementById('introScreen');
+            if (!intro || intro.style.display === 'none') {
+                return;
+            }
             if (codeLineIndex >= codeLines.length) {
                 setTimeout(() => {
                     resetEditor();
@@ -1785,7 +1795,7 @@
             info.style.borderLeftColor = 'var(--outbound)';
             info.innerHTML = `
                 <strong>Июнь 2026</strong><br>
-                📅 <strong>4–19 июня</strong> (все рабочие дни): запись на слоты <strong>10:00–11:30, 12:00–13:30, 14:00–15:30</strong>
+                📅 <strong>16, 18, 23, 25 июня</strong>: запись на слоты <strong>10:00–11:30, 12:00–13:30, 14:00–15:30</strong>
             `;
             legend.innerHTML = `
                 <div class="legend-item"><div class="legend-box" style="background: var(--outbound);"></div> Арт-тренинги</div>
@@ -1822,7 +1832,7 @@
         } else if (selectedOutboundGroup === 'it') {
             days = [...PHASE2_DATES];
         } else if (selectedOutboundGroup === 'art') {
-            days = [...PHASE1_DATES, ...PHASE2_DATES];
+            days = [...OUTBOUND_ART_DATES];
         } else {
             days = [...PHASE1_DATES, ...PHASE2_DATES];
         }
@@ -1873,14 +1883,14 @@
 
                 if (myBooking) {
                     slotEl.classList.add('my-booking');
-                    slotEl.textContent = `✓ ${slot} — ${myBooking.workshopName}`;
+                    slotEl.textContent = `✓ ${slot} — ${escapeHtml(myBooking.workshopName)}`;
                     slotEl.onclick = () => openBookingModal(day, slot);
                 } else if (myGlobalBooking) {
                     slotEl.classList.add('occupied');
                     slotEl.textContent = `${slot} — уже есть запись`;
                 } else if (slotBookings.length > 0) {
                     slotEl.classList.add('occupied');
-                    slotEl.textContent = `${slot} — ${slotBookings[0].schoolName}`;
+                    slotEl.textContent = `${slot} — ${escapeHtml(slotBookings[0].schoolName)}`;
                 } else {
                     slotEl.classList.add('free');
                     if (selectedBookingType === 'outbound') {
@@ -2002,8 +2012,8 @@
 
     async function bookWorkshop(day, slot, workshopId) {
         if (!currentUser) return;
-        if (currentUser.role === 'admin') {
-            alert('Администратор не может записываться на мастерклассы.');
+        if (currentUser.role !== 'school') {
+            alert('Записываться на мастерклассы могут только школы.');
             return;
         }
 
@@ -2077,10 +2087,10 @@
             item.className = 'booking-item';
             item.innerHTML = `
                 <div class="booking-info">
-                    <div class="booking-date">${b.day} июня — ${b.time}</div>
-                    <div>${b.workshopName} <span class="badge badge-${b.type}">${b.type === 'studio' ? 'В студии' : 'Выездной'}</span></div>
+                    <div class="booking-date">${b.day} июня — ${escapeHtml(b.time)}</div>
+                    <div>${escapeHtml(b.workshopName)} <span class="badge badge-${escapeHtml(b.type)}">${b.type === 'studio' ? 'В студии' : 'Выездной'}</span></div>
                 </div>
-                <button class="btn btn-primary" style="font-size: 0.8rem;" onclick="cancelBooking(${b.day}, '${b.time}', '${b.workshopId}')">Отменить</button>
+                <button class="btn btn-primary" style="font-size: 0.8rem;" onclick="cancelBooking(${b.day}, '${escapeHtml(b.time)}', '${escapeHtml(b.workshopId)}')">Отменить</button>
             `;
             container.appendChild(item);
         });
@@ -2095,18 +2105,18 @@
             const card = document.createElement('div');
             card.className = `workshop-info ${ws.type}`;
             card.innerHTML = `
-                <h3>${ws.title}</h3>
+                <h3>${escapeHtml(ws.title)}</h3>
                 <div class="workshop-meta">
-                    <span>📍 ${ws.format}</span>
-                    <span>⏱ ${ws.duration}</span>
+                    <span>📍 ${escapeHtml(ws.format)}</span>
+                    <span>⏱ ${escapeHtml(ws.duration)}</span>
                     ${ws.type === 'studio' ? '<span>👥 до 12 чел.</span>' : ''}
-                    <span>👤 ${ws.teacher}</span>
+                    <span>👤 ${escapeHtml(ws.teacher)}</span>
                 </div>
-                <p class="workshop-desc">${ws.fullDesc}</p>
+                <p class="workshop-desc">${escapeHtml(ws.fullDesc)}</p>
                 <div class="workshop-result">
                     <h4>Результат</h4>
                     <ul>
-                        ${ws.result.map(r => `<li>${r}</li>`).join('')}
+                        ${ws.result.map(r => `<li>${escapeHtml(r)}</li>`).join('')}
                     </ul>
                 </div>
             `;
@@ -2141,12 +2151,12 @@
             card.className = 'teacher-card';
             card.innerHTML = `
                 <div class="teacher-photo">
-                    <img src="${t.photo}" alt="${t.name}" onerror="this.remove()">
-                    ${t.initials}
+                    <img src="${escapeHtml(t.photo)}" alt="${escapeHtml(t.name)}" onerror="this.remove()">
+                    ${escapeHtml(t.initials)}
                 </div>
-                <h3>${t.name}</h3>
-                <div class="teacher-role">${t.role}</div>
-                <p class="teacher-bio">${t.bio}</p>
+                <h3>${escapeHtml(t.name)}</h3>
+                <div class="teacher-role">${escapeHtml(t.role)}</div>
+                <p class="teacher-bio">${escapeHtml(t.bio)}</p>
             `;
             grid.appendChild(card);
         });
@@ -2170,12 +2180,12 @@
         sorted.forEach(b => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td>${b.schoolName}</td>
+                <td>${escapeHtml(b.schoolName)}</td>
                 <td>${b.day} июня 2026</td>
-                <td>${b.time}</td>
-                <td>${b.workshopName}</td>
-                <td><span class="badge badge-${b.type}">${b.type === 'studio' ? 'В студии' : 'Выездной'}</span></td>
-                <td><button class="btn btn-primary" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" onclick="adminCancelBooking('${b.id}')">Отменить</button></td>
+                <td>${escapeHtml(b.time)}</td>
+                <td>${escapeHtml(b.workshopName)}</td>
+                <td><span class="badge badge-${escapeHtml(b.type)}">${b.type === 'studio' ? 'В студии' : 'Выездной'}</span></td>
+                <td><button class="btn btn-primary" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;" onclick="adminCancelBooking('${escapeHtml(b.id)}')">Отменить</button></td>
             `;
             tbody.appendChild(tr);
         });
@@ -2395,7 +2405,7 @@
         } else if (group === 'it') {
             days = [...PHASE2_DATES];
         } else if (group === 'art') {
-            days = [...PHASE1_DATES, ...PHASE2_DATES];
+            days = [...OUTBOUND_ART_DATES];
         }
 
         days.forEach(day => {
@@ -2441,8 +2451,8 @@
 
                 if (slotBookings.length > 0) {
                     slotEl.classList.add('occupied');
-                    slotEl.innerHTML = `<strong>${slot}</strong><br>` +
-                        slotBookings.map(b => `${b.schoolName} — ${b.workshopName}`).join('<br>');
+                    slotEl.innerHTML = `<strong>${escapeHtml(slot)}</strong><br>` +
+                        slotBookings.map(b => `${escapeHtml(b.schoolName)} — ${escapeHtml(b.workshopName)}`).join('<br>');
                 } else {
                     slotEl.classList.add('free');
                     if (type === 'outbound') {

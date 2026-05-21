@@ -24,7 +24,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 function readJson($path) {
     if (!file_exists($path)) return [];
+    $fp = fopen($path, 'r');
+    if (!$fp) return [];
+    flock($fp, LOCK_SH);
     $content = file_get_contents($path);
+    flock($fp, LOCK_UN);
+    fclose($fp);
     return json_decode($content, true) ?: [];
 }
 
@@ -32,8 +37,11 @@ function writeJson($path, $data) {
     $dir = dirname($path);
     if (!is_dir($dir)) mkdir($dir, 0755, true);
     $tmp = $path . '.tmp';
-    file_put_contents($tmp, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-    rename($tmp, $path);
+    $written = file_put_contents($tmp, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE), LOCK_EX);
+    if ($written === false) {
+        return false;
+    }
+    return rename($tmp, $path);
 }
 
 function jsonResponse($data, $code = 200) {

@@ -22,6 +22,7 @@ foreach ($users as $u) {
 
 if ($user) {
     session_start();
+    session_regenerate_id(true);
     $_SESSION['user'] = ['login' => $user['login'], 'name' => $user['name'], 'role' => $user['role']];
     jsonResponse(['success' => true, 'user' => $_SESSION['user']]);
 } else {

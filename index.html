@@ -1709,20 +1709,19 @@
                 loadUsers();
             } else {
                 myBookingsSection.style.display = '';
-                adminLink.style.display = 'none';
                 adminSection.style.display = 'none';
                 calendarSection.style.display = '';
                 workshopsSection.style.display = '';
                 teachersSection.style.display = '';
                 teacherDashboard.style.display = 'none';
                 navLinks.forEach(a => a.style.display = '');
+                adminLink.style.display = 'none';
                 renderMyBookings();
             }
         } else {
             userName.textContent = 'Гость';
             authBtn.textContent = 'Войти';
             authBtn.onclick = toggleAuth;
-            adminLink.style.display = 'none';
             adminSection.style.display = 'none';
             myBookingsSection.style.display = 'none';
             teacherDashboard.style.display = 'none';
@@ -1730,6 +1729,7 @@
             workshopsSection.style.display = '';
             teachersSection.style.display = '';
             navLinks.forEach(a => a.style.display = '');
+            adminLink.style.display = 'none';
         }
         renderCalendar();
     }

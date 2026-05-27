@@ -858,25 +858,29 @@
                         <label>Школа:</label>
                         <select id="introSchoolSelect" class="marker-input">
                             <option value="" disabled selected>Выберите школу</option>
-                            <option value="школа1">Школа №1</option>
-                            <option value="школа2">Школа №2</option>
-                            <option value="школа3">Школа №3</option>
-                            <option value="школа4">Школа №4</option>
-                            <option value="школа5">Школа №5</option>
-                            <option value="школа6">Школа №6</option>
-                            <option value="школа7">Школа №7</option>
-                            <option value="школа8">Школа №8</option>
-                            <option value="школа9">Школа №9</option>
-                            <option value="школа10">Школа №10</option>
-                            <option value="школа11">Школа №11</option>
-                            <option value="школа12">Школа №12</option>
-                            <option value="школа13">Школа №13</option>
-                            <option value="школа14">Школа №14</option>
-                            <option value="школа15">Школа №15</option>
-                            <option value="школа16">Школа №16</option>
-                            <option value="школа17">Школа №17</option>
-                            <option value="школа18">Школа №18</option>
-                            <option value="школа19">Школа №19</option>
+                            <option value="licey2">Лицей 2</option>
+                            <option value="sosh4">СОШ 4</option>
+                            <option value="sosh5">СОШ 5</option>
+                            <option value="sosh6">СОШ 6</option>
+                            <option value="sosh7">СОШ 7</option>
+                            <option value="gym8">Гимназия 8</option>
+                            <option value="sosh9">СОШ 9</option>
+                            <option value="sosh10">СОШ 10</option>
+                            <option value="sosh11">СОШ 11</option>
+                            <option value="sosh12">СОШ 12</option>
+                            <option value="sosh14">СОШ 14</option>
+                            <option value="sosh16">СОШ 16</option>
+                            <option value="sosh21">СОШ 21</option>
+                            <option value="sosh22">СОШ 22</option>
+                            <option value="sosh25">СОШ 25</option>
+                            <option value="sosh27">СОШ 27</option>
+                            <option value="sosh30">СОШ 30</option>
+                            <option value="sosh31">СОШ 31</option>
+                            <option value="sosh32">СОШ 32</option>
+                            <option value="sosh36">СОШ 36</option>
+                            <option value="sosh40">СОШ 40</option>
+                            <option value="megsossh">Мегетская СОШ</option>
+                            <option value="savsossh">Савватеевская СОШ</option>
                         </select>
                     </div>
                     <div class="marker-field">
@@ -974,25 +978,29 @@
                 <label>> Школа:</label>
                 <select id="schoolSelect">
                     <option value="" disabled selected>Выберите школу</option>
-                    <option value="школа1">Школа №1</option>
-                    <option value="школа2">Школа №2</option>
-                    <option value="школа3">Школа №3</option>
-                    <option value="школа4">Школа №4</option>
-                    <option value="школа5">Школа №5</option>
-                    <option value="школа6">Школа №6</option>
-                    <option value="школа7">Школа №7</option>
-                    <option value="школа8">Школа №8</option>
-                    <option value="школа9">Школа №9</option>
-                    <option value="школа10">Школа №10</option>
-                    <option value="школа11">Школа №11</option>
-                    <option value="школа12">Школа №12</option>
-                    <option value="школа13">Школа №13</option>
-                    <option value="школа14">Школа №14</option>
-                    <option value="школа15">Школа №15</option>
-                    <option value="школа16">Школа №16</option>
-                    <option value="школа17">Школа №17</option>
-                    <option value="школа18">Школа №18</option>
-                    <option value="школа19">Школа №19</option>
+                    <option value="licey2">Лицей 2</option>
+                    <option value="sosh4">СОШ 4</option>
+                    <option value="sosh5">СОШ 5</option>
+                    <option value="sosh6">СОШ 6</option>
+                    <option value="sosh7">СОШ 7</option>
+                    <option value="gym8">Гимназия 8</option>
+                    <option value="sosh9">СОШ 9</option>
+                    <option value="sosh10">СОШ 10</option>
+                    <option value="sosh11">СОШ 11</option>
+                    <option value="sosh12">СОШ 12</option>
+                    <option value="sosh14">СОШ 14</option>
+                    <option value="sosh16">СОШ 16</option>
+                    <option value="sosh21">СОШ 21</option>
+                    <option value="sosh22">СОШ 22</option>
+                    <option value="sosh25">СОШ 25</option>
+                    <option value="sosh27">СОШ 27</option>
+                    <option value="sosh30">СОШ 30</option>
+                    <option value="sosh31">СОШ 31</option>
+                    <option value="sosh32">СОШ 32</option>
+                    <option value="sosh36">СОШ 36</option>
+                    <option value="sosh40">СОШ 40</option>
+                    <option value="megsossh">Мегетская СОШ</option>
+                    <option value="savsossh">Савватеевская СОШ</option>
                 </select>
             </div>
             <div class="form-group">
@@ -1218,6 +1226,7 @@
     let selectedWorkshopId = null;
     let workshopsData = null;
     let PHASE1_DATES, PHASE2_DATES, PHASE1_SLOT, PHASE2_SLOTS, ALL_WORKSHOPS, OUTBOUND_ART_DATES;
+    let pollIntervalId = null;
 
     function setWorkshopsData(data) {
         workshopsData = data;
@@ -1533,6 +1542,7 @@
         if (currentUser && currentUser.role === 'teacher') {
             renderTeacherCalendars();
         }
+        if (currentUser) startPolling();
     }
 
     // ===================== AUTH =====================
@@ -1732,6 +1742,50 @@
             adminLink.style.display = 'none';
         }
         renderCalendar();
+
+        if (currentUser && !pollIntervalId) {
+            startPolling();
+        } else if (!currentUser && pollIntervalId) {
+            stopPolling();
+        }
+    }
+
+    // ===================== POLLING =====================
+    function startPolling() {
+        if (pollIntervalId) return;
+        pollIntervalId = setInterval(pollBookings, 5000);
+    }
+
+    function stopPolling() {
+        if (pollIntervalId) {
+            clearInterval(pollIntervalId);
+            pollIntervalId = null;
+        }
+    }
+
+    async function pollBookings() {
+        if (!currentUser) return;
+        try {
+            const res = await fetch('api/bookings.php');
+            if (!res.ok) return;
+            const data = await res.json();
+            applyBookings(data);
+        } catch (e) {
+            // Игнорируем сетевые ошибки при опросе
+        }
+    }
+
+    function applyBookings(newBookings) {
+        if (JSON.stringify(bookings) === JSON.stringify(newBookings)) return;
+        bookings = newBookings;
+        renderCalendar();
+        if (currentUser.role === 'school') {
+            renderMyBookings();
+        } else if (currentUser.role === 'admin') {
+            renderAdminTable();
+        } else if (currentUser.role === 'teacher') {
+            renderTeacherCalendars();
+        }
     }
 
     // ===================== CALENDAR =====================

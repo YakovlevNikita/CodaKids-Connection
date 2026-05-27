@@ -18,117 +18,141 @@
         "password_hash": "$2y$12$FPMwJVC.kYYsVfABQLL0BO0LcSENbTH8q4b8OfsX.dWgGf6A04aMm"
     },
     {
-        "login": "школа1",
-        "name": "Школа 1",
+        "login": "licey2",
+        "name": "Лицей 2",
         "role": "school",
-        "password_hash": "$2y$12$URgyDbRy3XOBrW9k40BhEeV\/krM0oosejVujchVjSt.\/Nj.0CkT1q"
+        "password_hash": "$2y$12$RDQK1TrDgpBA.oAdd9YwnOyu7PretndJpHOYXBRJ3590x9TRiS0Ye"
     },
     {
-        "login": "школа2",
-        "name": "Школа 2",
+        "login": "sosh4",
+        "name": "СОШ 4",
         "role": "school",
-        "password_hash": "$2y$12$4esL.6KoRE8VZUAbexVup.K.11ky\/7.3dTWDnnzNONIeP1WVRFWj2"
+        "password_hash": "$2y$12$M5PPKAdbmoJuJ7NECYfz9ua4cptMO1bHHLo9\/GhQoPnVlMrOzA7a."
     },
     {
-        "login": "школа3",
-        "name": "Школа 3",
+        "login": "sosh5",
+        "name": "СОШ 5",
         "role": "school",
-        "password_hash": "$2y$12$u7oJcFhBkT\/wSRXYsUg0vehv\/MvnUMHqg753JZ1pb7FB4VjeVYG0S"
+        "password_hash": "$2y$12$SzI7qWBi.D9zKYh08aQ\/lONjJg01ctyyVYNcHRgEkn06t0IV46N0y"
     },
     {
-        "login": "школа4",
-        "name": "Школа 4",
+        "login": "sosh6",
+        "name": "СОШ 6",
         "role": "school",
-        "password_hash": "$2y$12$alRbSzYPc4AqESkPC74RLe6q.Rl0bNhdRzwlAaHTz14QcYdeV2R16"
+        "password_hash": "$2y$12$Gep8JZ8lZVxXbH\/vYIp7O.U.kvVUyDNYXgLmnbZu3Z.da\/XIhfmNi"
     },
     {
-        "login": "школа5",
-        "name": "Школа 5",
+        "login": "sosh7",
+        "name": "СОШ 7",
         "role": "school",
-        "password_hash": "$2y$12$fscwIMNrHcBIOA4sUlvKnuqU7rcYGVXxxMrwL\/rPcHUfNZKmMA34m"
+        "password_hash": "$2y$12$DB813BrYLSsuY2RUYNBvhub4cR6MASJFruquUWMMx0gdtYpFdZHdK"
     },
     {
-        "login": "школа6",
-        "name": "Школа 6",
+        "login": "gym8",
+        "name": "Гимназия 8",
         "role": "school",
-        "password_hash": "$2y$12$eQsTJWFYFEWumlaq4fV22.\/i3Hwgy4ZJWhjSkVf99\/61NWgUQIO3C"
+        "password_hash": "$2y$12$g\/yrj0jDsPssCMaBPi2hm.4d9mN79Kop9KpTx7hgl4An9JtqXj2wa"
     },
     {
-        "login": "школа7",
-        "name": "Школа 7",
+        "login": "sosh9",
+        "name": "СОШ 9",
         "role": "school",
-        "password_hash": "$2y$12$j\/w0ybqFf1qGPE81FyjxFelAFXk596qnvaY2PKBWXwr2RDqFEqwxu"
+        "password_hash": "$2y$12$W8KGMGuJBSf8Qkxk.N5Lg.JYoFeRUfiyoBtm6Qoq4dN0GTMOnDqTq"
     },
     {
-        "login": "школа8",
-        "name": "Школа 8",
+        "login": "sosh10",
+        "name": "СОШ 10",
         "role": "school",
-        "password_hash": "$2y$12$2goI0qqCJxY2LIaVpP5qE.gDp8raGEAANcPoCJt8JrAxyIdtFaMDa"
+        "password_hash": "$2y$12$P0RrVutLVHohoScHXMc9zO.uGHPRZoU2TlpO2ODSXsRMCHL8UF5Jq"
     },
     {
-        "login": "школа9",
-        "name": "Школа 9",
+        "login": "sosh11",
+        "name": "СОШ 11",
         "role": "school",
-        "password_hash": "$2y$12$rLbkPChClvissUjBBLgrs.d9dX6zMe8285l355TRWDHTs1zq8GBBu"
+        "password_hash": "$2y$12$07AQselw3I3tOpFAkDpAqeQ6cPnXbR480v23N2lm\/yjB9QIC315PW"
     },
     {
-        "login": "школа10",
-        "name": "Школа 10",
+        "login": "sosh12",
+        "name": "СОШ 12",
         "role": "school",
-        "password_hash": "$2y$12$YwgHHzbZG11OLWDwtMCzuelT4vTXewu47cOWyY4E123P\/Fl0TK9qm"
+        "password_hash": "$2y$12$8VTMDiK.aqXuQb.riaEX9.2hQPWGV7X.GARM7BoO8HlnHD.2UWx8G"
     },
     {
-        "login": "школа11",
-        "name": "Школа 11",
+        "login": "sosh14",
+        "name": "СОШ 14",
         "role": "school",
-        "password_hash": "$2y$12$PYaG9qQA02dJBC2BrZ7uTO6p8gIbb5K2qINPVk.Xn\/7bjWUazjg7u"
+        "password_hash": "$2y$12$dZ83Gl52\/.7hs5HyFmISi.fxTWmUCY43k40UO2KJC.BF1jepsrzrK"
     },
     {
-        "login": "школа12",
-        "name": "Школа 12",
+        "login": "sosh16",
+        "name": "СОШ 16",
         "role": "school",
-        "password_hash": "$2y$12$lEgJnnGAPXndlPHKbd4TEuM65bJzpoKQuXTaP0PQUMECxOhJUjBJ."
+        "password_hash": "$2y$12$S5DxmZB393OOtrDslozZOu.xapab\/RBi4MR7InoZK5G\/kiBSytwqi"
     },
     {
-        "login": "школа13",
-        "name": "Школа 13",
+        "login": "sosh21",
+        "name": "СОШ 21",
         "role": "school",
-        "password_hash": "$2y$12$VVeLJplVrBU3QBOl7DmanOw4R7aLhcosYdk8HkasaGadXb1vwxdKW"
+        "password_hash": "$2y$12$F94kksQCrGI.5RUpa7aK4.jjcFCkdQotOsHvnTXmMxp8SzJvC59X2"
     },
     {
-        "login": "школа14",
-        "name": "Школа 14",
+        "login": "sosh22",
+        "name": "СОШ 22",
         "role": "school",
-        "password_hash": "$2y$12$vVF3ObnQFUBfmaQFS3xj4egx7rYyANQdIq.P38715C6QFNADrHfz."
+        "password_hash": "$2y$12$r29HUuo4YCAwjTELbmx4H.6T1AfskrxhXGfbeNp8ZLG4DuZV1S5tq"
     },
     {
-        "login": "школа15",
-        "name": "Школа 15",
+        "login": "sosh25",
+        "name": "СОШ 25",
         "role": "school",
-        "password_hash": "$2y$12$uuk.f9XuPJQpmh.OtLsXPuau9vAXlVgTDop0aOJ1o\/dkq6gmwixUC"
+        "password_hash": "$2y$12$z\/TMFsOlA0gp9LYkFIDjW.FO7mSHJjwry7.IS2Ni\/vRkOQSmma37W"
     },
     {
-        "login": "школа16",
-        "name": "Школа 16",
+        "login": "sosh27",
+        "name": "СОШ 27",
         "role": "school",
-        "password_hash": "$2y$12$9K6aWXISw9KVdGGpLWHy2eYzKO9KW7EdHE9yPbQh8ZdJMjHk5FdXq"
+        "password_hash": "$2y$12$xyg7KfD2\/olnrjfw6IF4XeyhvJ8Gq79QAXXED7k0B6Cupj73oz8Qy"
     },
     {
-        "login": "школа17",
-        "name": "Школа 17",
+        "login": "sosh30",
+        "name": "СОШ 30",
         "role": "school",
-        "password_hash": "$2y$12$Msy3E5XRZe.yg3pbgExXeunWi.LkKlqOFikhNL6gH\/2Wx53ebcPGK"
+        "password_hash": "$2y$12$0yIbLNcNcOo8FtWX91xIXegBjSQqslF8UhNWGOLzcXkffYg6M.nDe"
     },
     {
-        "login": "школа18",
-        "name": "Школа 18",
+        "login": "sosh31",
+        "name": "СОШ 31",
         "role": "school",
-        "password_hash": "$2y$12$ZFbjQ.jOOGzQVlF3bHEpKOHIEtfpcKLxmjipWLOdQROTbgufQStIO"
+        "password_hash": "$2y$12$AVGcnj0qT9Jl5PIp0t5ZzeGLMSNlnb.FkOPdPXWq5Oq8w3gqPM6H2"
     },
     {
-        "login": "школа19",
-        "name": "Школа 19",
+        "login": "sosh32",
+        "name": "СОШ 32",
         "role": "school",
-        "password_hash": "$2y$12$Hju7LukO.qAavSAblx6lFev53GKrGTluaOJly3kr1nSwve0qePdoW"
+        "password_hash": "$2y$12$mL1q5Xg.HASBOeSoPDZKEuWGNfffKcau0B3MJg17CCSMkTbNcVKR."
+    },
+    {
+        "login": "sosh36",
+        "name": "СОШ 36",
+        "role": "school",
+        "password_hash": "$2y$12$Qi8yKwFd8iohCRxTJj28w.SspnESiqmSlMHtw6YkVl\/Wbc6C1OtMm"
+    },
+    {
+        "login": "sosh40",
+        "name": "СОШ 40",
+        "role": "school",
+        "password_hash": "$2y$12$MP8zE8LwiV1brZ7i9cd8OOSiwtsA6rxPJLA5.MTcWLYwWbsX\/C8kq"
+    },
+    {
+        "login": "megsossh",
+        "name": "Мегетская СОШ",
+        "role": "school",
+        "password_hash": "$2y$12$qzOxpRtZf1NJizzBH.Z9xupUeIdqqvB95VKIkX0ZN9j7KI\/V7I\/6u"
+    },
+    {
+        "login": "savsossh",
+        "name": "Савватеевская СОШ",
+        "role": "school",
+        "password_hash": "$2y$12$4ZeFDb8YXCqvhsgTgyyc4ejQ\/31Z9E0VthyF9e5v8UF9EctfR8UqO"
     }
 ]

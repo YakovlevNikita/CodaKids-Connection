@@ -5,3 +5,6 @@ desktop.ini
 *.docx
 passwords.txt
 data.zip
+credentials.md
+*.zip
+data/.bookings.lock

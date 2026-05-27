@@ -60,22 +60,66 @@ if ($method === 'POST') {
         jsonResponse(['error' => 'Ошибка загрузки расписания'], 500);
     }
 
-    $phase1Dates = $schedule['phase1Dates'] ?? [];
-    $phase2Dates = $schedule['phase2Dates'] ?? [];
-    $phase1Slot = $schedule['phase1Slot'] ?? [];
-    $phase2Slots = $schedule['phase2Slots'] ?? [];
-
-    $isPhase1 = in_array($day, $phase1Dates, true);
-    $isPhase2 = in_array($day, $phase2Dates, true);
-    if (!$isPhase1 && !$isPhase2) {
+    // Получаем информацию о мастерклассе
+    $ws = null;
+    foreach ($workshops['all'] as $w) {
+        if ($w['id'] === $workshopId) {
+            $ws = $w;
+            break;
+        }
+    }
+    if (!$ws) {
         if ($lockFp) {
             flock($lockFp, LOCK_UN);
             fclose($lockFp);
         }
-        jsonResponse(['error' => 'Недопустимая дата'], 400);
+        jsonResponse(['error' => 'Мастеркласс не найден'], 404);
     }
 
-    $validTimes = $isPhase1 ? $phase1Slot : $phase2Slots;
+    // Валидация даты и времени в зависимости от типа мастеркласса
+    $phase1Dates = $schedule['phase1Dates'] ?? [];
+    $phase2Dates = $schedule['phase2Dates'] ?? [];
+    $phase1Slot = $schedule['phase1Slot'] ?? [];
+    $phase2Slots = $schedule['phase2Slots'] ?? [];
+    $outboundItDates = $schedule['outboundItDates'] ?? [];
+    $outboundItSlots = $schedule['outboundItSlots'] ?? [];
+    $outboundArtDates = $schedule['outboundArtDates'] ?? [];
+    $outboundArtSlots = $schedule['outboundArtSlots'] ?? [];
+
+    $validTimes = [];
+    if ($ws['type'] === 'studio') {
+        $isPhase1 = in_array($day, $phase1Dates, true);
+        $isPhase2 = in_array($day, $phase2Dates, true);
+        if (!$isPhase1 && !$isPhase2) {
+            if ($lockFp) {
+                flock($lockFp, LOCK_UN);
+                fclose($lockFp);
+            }
+            jsonResponse(['error' => 'Недопустимая дата'], 400);
+        }
+        $validTimes = $isPhase1 ? $phase1Slot : $phase2Slots;
+    } else if ($ws['type'] === 'outbound') {
+        if ($ws['group'] === 'it') {
+            if (!in_array($day, $outboundItDates, true)) {
+                if ($lockFp) {
+                    flock($lockFp, LOCK_UN);
+                    fclose($lockFp);
+                }
+                jsonResponse(['error' => 'Недопустимая дата'], 400);
+            }
+            $validTimes = $outboundItSlots;
+        } else if ($ws['group'] === 'art') {
+            if (!in_array($day, $outboundArtDates, true)) {
+                if ($lockFp) {
+                    flock($lockFp, LOCK_UN);
+                    fclose($lockFp);
+                }
+                jsonResponse(['error' => 'Недопустимая дата'], 400);
+            }
+            $validTimes = $outboundArtSlots;
+        }
+    }
+
     if (!in_array($time, $validTimes, true)) {
         if ($lockFp) {
             flock($lockFp, LOCK_UN);
@@ -93,22 +137,6 @@ if ($method === 'POST') {
             }
             jsonResponse(['error' => 'Вы уже записаны на этот слот'], 400);
         }
-    }
-
-    // Получаем информацию о мастерклассе
-    $ws = null;
-    foreach ($workshops['all'] as $w) {
-        if ($w['id'] === $workshopId) {
-            $ws = $w;
-            break;
-        }
-    }
-    if (!$ws) {
-        if ($lockFp) {
-            flock($lockFp, LOCK_UN);
-            fclose($lockFp);
-        }
-        jsonResponse(['error' => 'Мастеркласс не найден'], 404);
     }
 
     // Проверка лимита

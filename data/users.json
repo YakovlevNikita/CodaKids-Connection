@@ -3,19 +3,19 @@
         "login": "admin",
         "name": "Администратор",
         "role": "admin",
-        "password_hash": "$2y$12$4D3qYQH.vPuEm7iMzSZ\/nuUhGlas939j1HCRIaAFZ2y9ibNHVw9fi"
+        "password_hash": "$2y$12$\/5b9zg\/mazltdvLBMguIDO8DDRQNVyVp6ocvg02.oAv5jjwes6WRe"
     },
     {
         "login": "yakovlev",
         "name": "Яковлев Никита Андреевич",
         "role": "teacher",
-        "password_hash": "$2y$12$NFZNweFP0rOW\/sOjoqPYsexa1s51BrZWS.NLMVyRMIeQFosw\/TMka"
+        "password_hash": "$2y$12$FKV39vHJ1tNmjRvw6jMflOgrS2TXlFvJOF66TfWEyGAzEKvKW9lZS"
     },
     {
         "login": "semenyuk",
         "name": "Семенюк Лариса Валерьевна",
         "role": "teacher",
-        "password_hash": "$2y$12$FPMwJVC.kYYsVfABQLL0BO0LcSENbTH8q4b8OfsX.dWgGf6A04aMm"
+        "password_hash": "$2y$12$yKsJ.BNd2XQMiku1Zhl\/PuQg8sIuJ8eqOCtK5oBPs5dBO9WtHf9\/O"
     },
     {
         "login": "licey2",

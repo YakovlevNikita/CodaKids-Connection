@@ -114,8 +114,16 @@
     "schedule": {
         "phase1Dates": [4, 5, 8, 9, 10, 11, 12],
         "phase2Dates": [15, 16, 17, 18, 19],
-        "outboundArtDates": [16, 18, 23, 25],
         "phase1Slot": ["15:30–17:00"],
-        "phase2Slots": ["10:00–11:30", "12:00–13:30", "14:00–15:30"]
+        "phase2Slots": ["10:00–11:30", "12:00–13:30", "14:00–15:30"],
+        "outboundItDates": [17, 18, 19, 22, 23, 24, 25],
+        "outboundItSlots": ["10:30–12:00", "14:00–15:30"],
+        "outboundArtDates": [17, 18, 19, 22, 23, 24, 25],
+        "outboundArtSlots": ["9:00–10:30", "11:30–13:00", "14:00–15:30"]
+    },
+    "settings": {
+        "studioEnabled": true,
+        "outboundItEnabled": false,
+        "outboundArtEnabled": true
     }
 }

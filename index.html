@@ -1117,6 +1117,27 @@
                 <div id="passwordChangeError" style="display:none; color: var(--accent); font-size: 0.9rem; margin-top: 0.5rem;"></div>
                 <div id="passwordChangeSuccess" style="display:none; color: var(--studio); font-size: 0.9rem; margin-top: 0.5rem;"></div>
             </div>
+
+            <div style="margin-top: 2.5rem; padding-top: 1.5rem; border-top: 2px solid var(--border);">
+                <h3 style="font-size: 1.25rem; margin-bottom: 1rem; color: var(--primary);">Управление записями</h3>
+                <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 1rem;">Отключите направление, чтобы заблокировать запись для всех школ.</p>
+                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.95rem;">
+                        <input type="checkbox" id="settingStudio" onchange="updateSettings()" checked>
+                        <span>Студийные мастерклассы открыты для записи</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.95rem;">
+                        <input type="checkbox" id="settingOutboundIt" onchange="updateSettings()" checked>
+                        <span>Выездные IT-мастерклассы открыты для записи</span>
+                    </label>
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.95rem;">
+                        <input type="checkbox" id="settingOutboundArt" onchange="updateSettings()" checked>
+                        <span>Арт-тренинги открыты для записи</span>
+                    </label>
+                </div>
+                <div id="settingsError" style="display:none; color: var(--accent); font-size: 0.9rem; margin-top: 0.5rem;"></div>
+                <div id="settingsSuccess" style="display:none; color: var(--studio); font-size: 0.9rem; margin-top: 0.5rem;"></div>
+            </div>
         </div>
     </section>
 
@@ -1131,7 +1152,7 @@
         <h2>Запись на мастерклассы</h2>
 
         <div id="bookingTypeSelector" class="booking-type-selector">
-            <div class="booking-type-card studio" onclick="showCalendar('studio')">
+            <div class="booking-type-card studio" id="studioCard" onclick="showCalendar('studio')">
                 <h3>Мастерклассы в студии</h3>
                 <p>Мастеркласс пройдёт в студии «КодаКидс» по адресу <strong>г. Ангарск, 30 мкр, д 1</strong> в выбранное вами время. Вам необходимо прибыть на место за 10–15 минут до начала.</p>
                 <p style="margin-top:0.75rem;font-weight:600;color:var(--studio);">💰 Цена: 500 ₽ с человека</p>
@@ -1147,13 +1168,13 @@
         <div id="outboundGroupSelector" style="display:none;">
             <button class="btn" style="margin-bottom:1rem;background:var(--primary);color:white;" onclick="showBookingTypeSelector()">← Назад к выбору</button>
             <div class="booking-type-selector">
-                <div class="booking-type-card outbound" onclick="showCalendar('outbound-it')">
+                <div class="booking-type-card outbound" id="outboundItCard" onclick="showCalendar('outbound-it')">
                     <h3>IT-Мастерклассы</h3>
                     <p>создание уникальных персонажей и игр с использованием ПК</p>
                     <p style="margin-top:0.5rem;font-weight:600;">Преподаватель: Яковлев Н.А.</p>
                     <p style="margin-top:0.75rem;font-weight:600;color:var(--outbound);">💰 Цена: 800 ₽ с человека</p>
                 </div>
-                <div class="booking-type-card outbound" onclick="showCalendar('outbound-art')">
+                <div class="booking-type-card outbound" id="outboundArtCard" onclick="showCalendar('outbound-art')">
                     <h3>Арт-тренинги</h3>
                     <p>поговорим о гаджетах или психотипах в увлекательной форме</p>
                     <p style="margin-top:0.5rem;font-weight:600;">Преподаватель: Семенюк Л.В.</p>
@@ -1225,7 +1246,8 @@
     let bookingModalSlot = null;
     let selectedWorkshopId = null;
     let workshopsData = null;
-    let PHASE1_DATES, PHASE2_DATES, PHASE1_SLOT, PHASE2_SLOTS, ALL_WORKSHOPS, OUTBOUND_ART_DATES;
+    let PHASE1_DATES, PHASE2_DATES, PHASE1_SLOT, PHASE2_SLOTS, ALL_WORKSHOPS, OUTBOUND_IT_DATES, OUTBOUND_IT_SLOTS, OUTBOUND_ART_DATES, OUTBOUND_ART_SLOTS;
+    let SETTINGS = { studioEnabled: true, outboundItEnabled: true, outboundArtEnabled: true };
     let pollIntervalId = null;
 
     function setWorkshopsData(data) {
@@ -1235,7 +1257,12 @@
         PHASE2_DATES = data.schedule.phase2Dates;
         PHASE1_SLOT = data.schedule.phase1Slot;
         PHASE2_SLOTS = data.schedule.phase2Slots;
-        OUTBOUND_ART_DATES = data.schedule.outboundArtDates || [...PHASE1_DATES, ...PHASE2_DATES];
+        OUTBOUND_IT_DATES = data.schedule.outboundItDates || [];
+        OUTBOUND_IT_SLOTS = data.schedule.outboundItSlots || [];
+        OUTBOUND_ART_DATES = data.schedule.outboundArtDates || [];
+        OUTBOUND_ART_SLOTS = data.schedule.outboundArtSlots || [];
+        SETTINGS = data.settings || { studioEnabled: true, outboundItEnabled: true, outboundArtEnabled: true };
+        updateBookingTypeCards();
     }
 
     // ===================== CODE TYPING INTRO =====================
@@ -1717,6 +1744,7 @@
                 navLinks.forEach(a => a.style.display = 'none');
                 renderAdminTable();
                 loadUsers();
+                loadSettings();
             } else {
                 myBookingsSection.style.display = '';
                 adminSection.style.display = 'none';
@@ -1806,6 +1834,18 @@
     }
 
     function showCalendar(group) {
+        if (group === 'studio' && !SETTINGS.studioEnabled) {
+            alert('Запись на студийные мастерклассы временно закрыта.');
+            return;
+        }
+        if (group === 'outbound-it' && !SETTINGS.outboundItEnabled) {
+            alert('Запись на выездные IT-мастерклассы временно закрыта.');
+            return;
+        }
+        if (group === 'outbound-art' && !SETTINGS.outboundArtEnabled) {
+            alert('Запись на арт-тренинги временно закрыта.');
+            return;
+        }
         if (group === 'studio') {
             selectedBookingType = 'studio';
             selectedOutboundGroup = null;
@@ -1838,7 +1878,7 @@
             info.style.borderLeftColor = 'var(--outbound)';
             info.innerHTML = `
                 <strong>Июнь 2026</strong><br>
-                📅 <strong>15–19 июня</strong> (рабочая неделя): запись на слоты <strong>10:00–11:30, 12:00–13:30, 14:00–15:30</strong>
+                📅 <strong>17–25 июня</strong> (кроме 20, 21): запись на слоты <strong>10:30–12:00, 14:00–15:30</strong>
             `;
             legend.innerHTML = `
                 <div class="legend-item"><div class="legend-box" style="background: var(--outbound);"></div> IT-Мастерклассы</div>
@@ -1849,7 +1889,7 @@
             info.style.borderLeftColor = 'var(--outbound)';
             info.innerHTML = `
                 <strong>Июнь 2026</strong><br>
-                📅 <strong>16, 18, 23, 25 июня</strong>: запись на слоты <strong>10:00–11:30, 12:00–13:30, 14:00–15:30</strong>
+                📅 <strong>17–25 июня</strong> (кроме 20, 21): запись на слоты <strong>9:00–10:30, 11:30–13:00, 14:00–15:30</strong>
             `;
             legend.innerHTML = `
                 <div class="legend-item"><div class="legend-box" style="background: var(--outbound);"></div> Арт-тренинги</div>
@@ -1884,7 +1924,7 @@
         if (selectedBookingType === 'studio') {
             days = [...PHASE1_DATES, ...PHASE2_DATES];
         } else if (selectedOutboundGroup === 'it') {
-            days = [...PHASE2_DATES];
+            days = [...OUTBOUND_IT_DATES];
         } else if (selectedOutboundGroup === 'art') {
             days = [...OUTBOUND_ART_DATES];
         } else {
@@ -1897,9 +1937,9 @@
             if (selectedBookingType === 'studio') {
                 slots = isPhase1 ? PHASE1_SLOT : PHASE2_SLOTS;
             } else if (selectedOutboundGroup === 'it') {
-                slots = isPhase1 ? PHASE1_SLOT : PHASE2_SLOTS;
+                slots = OUTBOUND_IT_SLOTS;
             } else if (selectedOutboundGroup === 'art') {
-                slots = PHASE2_SLOTS;
+                slots = OUTBOUND_ART_SLOTS;
             }
 
             const card = document.createElement('div');
@@ -1970,6 +2010,18 @@
         }
         if (currentUser.role === 'admin') {
             alert('Администратор не может записываться на мастерклассы.');
+            return;
+        }
+        if (selectedBookingType === 'studio' && !SETTINGS.studioEnabled) {
+            alert('Запись на студийные мастерклассы временно закрыта.');
+            return;
+        }
+        if (selectedBookingType === 'outbound' && selectedOutboundGroup === 'it' && !SETTINGS.outboundItEnabled) {
+            alert('Запись на выездные IT-мастерклассы временно закрыта.');
+            return;
+        }
+        if (selectedBookingType === 'outbound' && selectedOutboundGroup === 'art' && !SETTINGS.outboundArtEnabled) {
+            alert('Запись на арт-тренинги временно закрыта.');
             return;
         }
 
@@ -2380,6 +2432,104 @@
         }
     }
 
+    async function loadSettings() {
+        try {
+            const res = await fetch('api/settings.php');
+            const data = await res.json();
+            SETTINGS = {
+                studioEnabled: data.studioEnabled !== false,
+                outboundItEnabled: data.outboundItEnabled !== false,
+                outboundArtEnabled: data.outboundArtEnabled !== false
+            };
+            document.getElementById('settingStudio').checked = SETTINGS.studioEnabled;
+            document.getElementById('settingOutboundIt').checked = SETTINGS.outboundItEnabled;
+            document.getElementById('settingOutboundArt').checked = SETTINGS.outboundArtEnabled;
+        } catch (e) {
+            console.error('Не удалось загрузить настройки', e);
+        }
+    }
+
+    async function updateSettings() {
+        const errorEl = document.getElementById('settingsError');
+        const successEl = document.getElementById('settingsSuccess');
+        errorEl.style.display = 'none';
+        successEl.style.display = 'none';
+
+        const newSettings = {
+            studioEnabled: document.getElementById('settingStudio').checked,
+            outboundItEnabled: document.getElementById('settingOutboundIt').checked,
+            outboundArtEnabled: document.getElementById('settingOutboundArt').checked
+        };
+
+        try {
+            const res = await fetch('api/settings.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(newSettings)
+            });
+            const data = await res.json();
+            if (data.success) {
+                SETTINGS = data.settings;
+                updateBookingTypeCards();
+                successEl.textContent = 'Настройки сохранены';
+                successEl.style.display = 'block';
+                setTimeout(() => { successEl.style.display = 'none'; }, 2000);
+            } else {
+                errorEl.textContent = data.error || 'Ошибка сохранения настроек';
+                errorEl.style.display = 'block';
+                document.getElementById('settingStudio').checked = SETTINGS.studioEnabled;
+                document.getElementById('settingOutboundIt').checked = SETTINGS.outboundItEnabled;
+                document.getElementById('settingOutboundArt').checked = SETTINGS.outboundArtEnabled;
+            }
+        } catch (e) {
+            errorEl.textContent = 'Ошибка сети при сохранении настроек';
+            errorEl.style.display = 'block';
+            document.getElementById('settingStudio').checked = SETTINGS.studioEnabled;
+            document.getElementById('settingOutboundIt').checked = SETTINGS.outboundItEnabled;
+            document.getElementById('settingOutboundArt').checked = SETTINGS.outboundArtEnabled;
+        }
+    }
+
+    function updateBookingTypeCards() {
+        const studioCard = document.getElementById('studioCard');
+        const itCard = document.getElementById('outboundItCard');
+        const artCard = document.getElementById('outboundArtCard');
+
+        if (studioCard) {
+            if (!SETTINGS.studioEnabled) {
+                studioCard.style.opacity = '0.5';
+                studioCard.style.pointerEvents = 'none';
+                studioCard.title = 'Запись временно закрыта';
+            } else {
+                studioCard.style.opacity = '';
+                studioCard.style.pointerEvents = '';
+                studioCard.title = '';
+            }
+        }
+        if (itCard) {
+            if (!SETTINGS.outboundItEnabled) {
+                itCard.style.opacity = '0.5';
+                itCard.style.pointerEvents = 'none';
+                itCard.title = 'Запись временно закрыта';
+            } else {
+                itCard.style.opacity = '';
+                itCard.style.pointerEvents = '';
+                itCard.title = '';
+            }
+        }
+        if (artCard) {
+            if (!SETTINGS.outboundArtEnabled) {
+                artCard.style.opacity = '0.5';
+                artCard.style.pointerEvents = 'none';
+                artCard.title = 'Запись временно закрыта';
+            } else {
+                artCard.style.opacity = '';
+                artCard.style.pointerEvents = '';
+                artCard.title = '';
+            }
+        }
+    }
+
     // ===================== UTILS =====================
     function setBtnLoading(id, loading) {
         const btn = document.getElementById(id);
@@ -2457,7 +2607,7 @@
         if (type === 'studio') {
             days = [...PHASE1_DATES, ...PHASE2_DATES];
         } else if (group === 'it') {
-            days = [...PHASE2_DATES];
+            days = [...OUTBOUND_IT_DATES];
         } else if (group === 'art') {
             days = [...OUTBOUND_ART_DATES];
         }
@@ -2468,9 +2618,9 @@
             if (type === 'studio') {
                 slots = isPhase1 ? PHASE1_SLOT : PHASE2_SLOTS;
             } else if (group === 'it') {
-                slots = isPhase1 ? PHASE1_SLOT : PHASE2_SLOTS;
+                slots = OUTBOUND_IT_SLOTS;
             } else if (group === 'art') {
-                slots = PHASE2_SLOTS;
+                slots = OUTBOUND_ART_SLOTS;
             }
 
             const card = document.createElement('div');

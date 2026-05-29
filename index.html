@@ -1149,7 +1149,7 @@
                     </label>
                     <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.95rem;">
                         <input type="checkbox" id="settingOutboundArt" onchange="updateSettings()" checked>
-                        <span>Арт-тренинги открыты для записи</span>
+                        <span>Мастерклассы по психологии открыты для записи</span>
                     </label>
                 </div>
                 <div id="settingsError" style="display:none; color: var(--accent); font-size: 0.9rem; margin-top: 0.5rem;"></div>
@@ -1176,7 +1176,7 @@
                 <a href="https://yandex.ru/maps/-/CPsSZJNj" target="_blank" class="btn btn-primary" style="margin-top:1rem;" onclick="event.stopPropagation();">Показать на карте</a>
             </div>
             <div class="booking-type-card outbound" onclick="showOutboundGroups()">
-                <h3>IT + Тренинги на выезде</h3>
+                <h3>IT или Психология. Выездные мастерклассы</h3>
                 <p>Мы приедем к вам заранее и всё настроим. С вас только помещение и оборудование (компьютеры с доступом в интернет).</p>
                 <p style="margin-top:0.75rem;font-weight:600;color:var(--outbound);">💰 Цена: 800 ₽ с человека</p>
             </div>
@@ -1192,7 +1192,7 @@
                     <p style="margin-top:0.75rem;font-weight:600;color:var(--outbound);">💰 Цена: 800 ₽ с человека</p>
                 </div>
                 <div class="booking-type-card outbound" id="outboundArtCard" onclick="showCalendar('outbound-art')">
-                    <h3>Арт-тренинги</h3>
+                    <h3>Мастерклассы по психологии</h3>
                     <p>поговорим о гаджетах или психотипах в увлекательной форме</p>
                     <p style="margin-top:0.5rem;font-weight:600;">Преподаватель: Семенюк Л.В.</p>
                     <p style="margin-top:0.75rem;font-weight:600;color:var(--outbound);">💰 Цена: 800 ₽ с человека</p>
@@ -1228,7 +1228,7 @@
         <h3 style="margin: 2rem 0 1rem; color: var(--outbound); border-left: 4px solid var(--outbound); padding-left: 0.75rem;">Выездные IT-мастерклассы — Яковлев Н.А.</h3>
         <div class="calendar-days-grid" id="teacherCalendarOutboundIt"></div>
 
-        <h3 style="margin: 2rem 0 1rem; color: #e74c3c; border-left: 4px solid #e74c3c; padding-left: 0.75rem;">Выездные арт-тренинги — Семенюк Л.В.</h3>
+        <h3 style="margin: 2rem 0 1rem; color: #e74c3c; border-left: 4px solid #e74c3c; padding-left: 0.75rem;">Выездные мастерклассы по психологии — Семенюк Л.В.</h3>
         <div class="calendar-days-grid" id="teacherCalendarOutboundArt"></div>
     </section>
 
@@ -1840,6 +1840,7 @@
         document.getElementById('bookingTypeSelector').style.display = '';
         document.getElementById('outboundGroupSelector').style.display = 'none';
         document.getElementById('calendarWrapper').style.display = 'none';
+        renderWorkshops();
     }
 
     function showOutboundGroups() {
@@ -1848,6 +1849,7 @@
         document.getElementById('bookingTypeSelector').style.display = 'none';
         document.getElementById('outboundGroupSelector').style.display = '';
         document.getElementById('calendarWrapper').style.display = 'none';
+        renderWorkshops();
     }
 
     function showCalendar(group) {
@@ -1860,7 +1862,7 @@
             return;
         }
         if (group === 'outbound-art' && !SETTINGS.outboundArtEnabled) {
-            alert('Запись на арт-тренинги временно закрыта.');
+            alert('Запись на мастерклассы по психологии временно закрыта.');
             return;
         }
         if (group === 'studio') {
@@ -1909,16 +1911,18 @@
                 📅 <strong>17–25 июня</strong> (кроме 20, 21): запись на слоты <strong>9:00–10:30, 11:30–13:00, 14:00–15:30</strong>
             `;
             legend.innerHTML = `
-                <div class="legend-item"><div class="legend-box" style="background: var(--outbound);"></div> Арт-тренинги</div>
+                <div class="legend-item"><div class="legend-box" style="background: var(--outbound);"></div> Мастерклассы по психологии</div>
                 <div class="legend-item"><div class="legend-box" style="background: #ffe0b2;"></div> Свободно</div>
                 <div class="legend-item"><div class="legend-box" style="background: #f8d7da;"></div> Занято</div>
             `;
         }
 
         renderCalendar();
+        renderWorkshops(group);
     }
 
     function hideCalendar() {
+        renderWorkshops();
         if (selectedBookingType === 'outbound') {
             selectedOutboundGroup = null;
             document.getElementById('outboundGroupSelector').style.display = '';
@@ -2038,7 +2042,7 @@
             return;
         }
         if (selectedBookingType === 'outbound' && selectedOutboundGroup === 'art' && !SETTINGS.outboundArtEnabled) {
-            alert('Запись на арт-тренинги временно закрыта.');
+            alert('Запись на мастерклассы по психологии временно закрыта.');
             return;
         }
 
@@ -2220,11 +2224,23 @@
     }
 
     // ===================== WORKSHOPS SECTION =====================
-    function renderWorkshops() {
+    function renderWorkshops(group) {
         const grid = document.getElementById('workshopsGrid');
         grid.innerHTML = '';
         if (!workshopsData) return;
-        workshopsData.all.forEach(ws => {
+        let workshops = [...workshopsData.all];
+        if (group === 'outbound-art') {
+            const priorityIds = ['gadgets', 'psychotypes'];
+            workshops.sort((a, b) => {
+                const aPriority = priorityIds.indexOf(a.id);
+                const bPriority = priorityIds.indexOf(b.id);
+                if (aPriority !== -1 && bPriority !== -1) return aPriority - bPriority;
+                if (aPriority !== -1) return -1;
+                if (bPriority !== -1) return 1;
+                return 0;
+            });
+        }
+        workshops.forEach(ws => {
             const card = document.createElement('div');
             card.className = `workshop-info ${ws.type}`;
             card.innerHTML = `
